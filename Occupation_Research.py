@@ -1,7 +1,7 @@
 import gspread #https://github.com/burnash/gspread
 #https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html
 from oauth2client.service_account import ServiceAccountCredentials
-
+from pdb import set_trace #set_trace() is godsend. Used for troubleshooting
 
 # use creds to create a client to interact with the Google Drive API
 scope = ['https://spreadsheets.google.com/feeds']
@@ -16,7 +16,9 @@ worksheet = sh.get_worksheet(0)
 val = worksheet.cell(1,1).value
 row = worksheet.row_values(1)
 
-worksheet.update_acell('D3','Ahhh! It works')
+set_trace()
+worksheet.update_acell('B6','Ava is cool')
 
-print(val)
-print(row)
+# print(val)
+# print(row)
+print('Done')
