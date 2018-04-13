@@ -10,14 +10,15 @@ client = gspread.authorize(creds)
 
 # Find a workbook by name and open the first sheet
 # Make sure you use the right name here.
-sh = client.open_by_key('1E6E1iKK38B9JyNcpqK8VpfH9nCMIZzKEyNREv_DTAO0')
-worksheet = sh.get_worksheet(0)
+sh = client.open_by_key('1E6E1iKK38B9JyNcpqK8VpfH9nCMIZzKEyNREv_DTAO0').sheet1
+#worksheet = sh.get_worksheet(0)
+list_of_hashes = sh.get_all_records()
+print(list_of_hashes)
+#val = worksheet.cell(1,1).value
+#row = worksheet.row_values(1)
 
-val = worksheet.cell(1,1).value
-row = worksheet.row_values(1)
-
-set_trace()
-worksheet.update_acell('B6','Ava is cool')
+#set_trace()
+#worksheet.update_acell('B6','Ava is cool')
 
 # print(val)
 # print(row)
