@@ -44,7 +44,7 @@ def create_population(population):
     draw.ellipse((200 - 180 * pop //320 ,200 - 180 * pop //320,
                 200 + 180 * pop //320 , 200 + 180 * pop //320 ), 'red')
     image.show()
-
+    image.save('Population circle diagram.png')
 def create_table():
     vis = vincent.Map(width=1000, height=800)
     #Add the US county data and a new line color
