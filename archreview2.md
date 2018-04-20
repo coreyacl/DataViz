@@ -7,10 +7,12 @@ We have decided to continue with visualizing the different aspects of life of Am
 We found some data that was easily convertible to excel or csv files and have already converted those to graphs. Other data has a more complicated extraction process.
 
 ## 2. Key Questions
-In terms of mining data, we would like help dealing with uncomplied data sources. For example, using the IPUMS extraction tool and using ATUS microfiles.
+In terms of mining data, we would like help dealing with uncomplied data sources. For example, using the IPUMS extraction tool and using ATUS microfiles. Tips on automating and processing of the data-mining as well.
+
+For the interface, thoughts on the ideas we currently have would be nice. Right now we're considering a white or blackboard aesthetic where the background of each interface is is a whiteboard where we project the graphs onto and possibly annotate with a marker or chalk.
 
 ## 3. Agenda
-For this review, we plan to give a terse debrief on our progress thus far with the help of our PowerPoint. During this time, we will explain the information on the PowerPoint in greater depth. We expect this part of the Review to last 10-15 minutes.
+For this review, we plan to give a terse debrief on our progress thus far using our PowerPoint during which we will elaborate on the information in front of the class. We expect this part of the Review to last 10-15 minutes.
 Based on the last architecture review, we expect that the reviewers will want to engage directly with us. Therefore, for the second part of the review, we intend to have a discussion with the reviewers. Also based on how the last review went, we have decided to pose each question, one after the other.
 
 ## 4. Link to PowerPoint
