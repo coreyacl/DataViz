@@ -11,6 +11,8 @@ In terms of mining data, we would like help dealing with uncomplied data sources
 
 For the interface, thoughts on the ideas we currently have would be nice. Right now we're considering a white or blackboard aesthetic where the background of each interface is is a whiteboard where we project the graphs onto and possibly annotate with a marker or chalk.
 
+For the graphs, we need advice on representing population with different jobs in 50 states. We are constantly having module problem for representing data in map form, so we would like to hear any alternative method of representing this data. Also, we would like to hear any feedback on improving the MVP of our graphs. 
+
 ## 3. Agenda
 For this review, we plan to give a terse debrief on our progress thus far using our PowerPoint during which we will elaborate on the information in front of the class. We expect this part of the Review to last 10-15 minutes.
 Based on the last architecture review, we expect that the reviewers will want to engage directly with us. Therefore, for the second part of the review, we intend to have a discussion with the reviewers. Also based on how the last review went, we have decided to pose each question, one after the other.
