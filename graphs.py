@@ -55,12 +55,12 @@ def create_table():
     vis.geo_data(states=state_geo)
     vis - ('fill', 'marks', 1, 'properties', 'enter')
     vis.to_json(path)
-def create_happiness():
+def create_happiness(a, b):
     fig, ax = plt.subplots()
     index = np.arange(2)
     bar_width = 0.3
     opacity = 0.8
-    rects1 = plt.bar(index, [5,7], bar_width,
+    rects1 = plt.bar(index, [a,b], bar_width,
                  alpha=opacity,
                  color='r')
     plt.ylabel('Happiness Value')
@@ -69,7 +69,7 @@ def create_happiness():
     plt.tight_layout()
     plt.show()
     fig.savefig('Happiness_Factor.png')
-#create_population(65000000)
-create_income(65000)
-create_happiness()
+create_population(65000000)
+#create_income(65000)
+#create_happiness(5, 7)
 #create_table()
