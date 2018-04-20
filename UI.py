@@ -41,7 +41,7 @@ class Interface():
         self.figures.append(button)
         self.locs.append((500,700))
 
-    def addFigure(self,fig,xl,yl):
+    def addFigure(self,fig,xl,yl,scale):
         """Creates a figure and places it at xl,yl
         fig: String of filename
         xl: x coordinate of figure (remember, top left is 0,0)
@@ -49,6 +49,8 @@ class Interface():
 
         """
         img = py.image.load(fig)
+        w,h = img.get_size()
+        img = py.transform.scale(img,(int(w*scale),int(h*scale)))
         self.figures.append(img)
         self.locs.append((xl,yl))
 
@@ -66,11 +68,11 @@ class Interface():
 """ Create the GUIs """
 mainScreen = Interface(gameDisplay)
 
-mainScreen.addFigure('initialgraphs/times.png',70,70)
+mainScreen.addFigure('initialgraphs/times.png',70,70,1)
 
 phys = Interface(gameDisplay)
 
-phys.addFigure('initialgraphs/physicist.png',40,50)
+phys.addFigure('initialgraphs/physicist.png',40,50,.5)
 
 screens = [mainScreen,phys]
 
