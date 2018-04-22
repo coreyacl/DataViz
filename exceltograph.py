@@ -17,20 +17,22 @@ from PIL import Image, ImageDraw, ImageFont
 #args = vars(ap.parse_args())
 
 
-workbook = xlrd.open_workbook('files/state_data/farm.xlsx', encoding_override="cp1252") #encoding for non-ASCII characters
+workbook = xlrd.open_workbook('files/state_data/physicist.xlsx', encoding_override="cp1252") #encoding for non-ASCII characters
 sheet1 = workbook.sheet_by_index(0)
 
 
 #extracting the data for each state
 employment = sheet1.col_values(1, start_rowx=6)
-employment_im = employment[0:-6]
+
+employment_im = employment[0:-6] #-6 for farmer
 
 #converting the values to integers
 employment_im = list(map(int, employment_im))
+print(len(employment_im))
 print(type(employment_im[0]))
-
+#farmers don't have DC data or virginia data
 def create_table():
-    states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+    states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE','DC', 'FL', 'GA',
             'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
             'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
             'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',

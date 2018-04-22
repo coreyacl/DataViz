@@ -15,4 +15,4 @@ sheet1 = workbook.sheet_by_index(0)
 #value of 1st row and first columns
 print(sheet1.cell(0,0).value)
 #prints column
-print(sheet1.col(0))
+print(sheet1.col(1))
