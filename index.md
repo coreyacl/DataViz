@@ -2,9 +2,9 @@
 
 This is a data visualization project concerning occupations in the United States. This project was created for the Software Design class at Olin College of Engineering.
 
-Find our project descriptions at [About Our Code](https://github.com/coreyacl/DataViz/blob/gh-pages/AboutOurCode.md) 
-Instructions at [Readme](https://github.com/coreyacl/DataViz/blob/gh-pages/README.md)
-About our [Project Evolution](https://github.com/coreyacl/DataViz/blob/gh-pages/projectevolution.md)
+Find our project descriptions at [About Our Code](AboutOurCode.md) 
+Instructions at [Readme](README.md)
+About our [Project Evolution](projectevolution.md)
 
 ## Our Goal
 
