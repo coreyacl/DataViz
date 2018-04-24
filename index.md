@@ -2,8 +2,8 @@
 
 This is a data visualization project concerning occupations in the United States. This project was created for the Software Design class at Olin College of Engineering.
 
-Find our project descriptions at [webpage2](https://github.com/coreyacl/DataViz/blob/master/webpage2.md) and instructions at [Readme](https://github.com/coreyacl/DataViz/blob/master/README.md).
-##Our Goal
+Find our project descriptions at [About Our Code](https://github.com/coreyacl/DataViz/blob/gh-pages/webpage2.md) and instructions at [Readme](https://github.com/coreyacl/DataViz/blob/mgh-pages/README.md).
+## Our Goal
 
 While brainstorming ideas for this assignment, we began talking about how cool seeing different types of data can be. Why? Visualizing data can show you what something in the world is like more comprehensively and accurately than your personal experiences can.
 We decided to leverage this power of data visualization to show interested U.S. adults like ourselves what having a job in the U.S. is like for multiple occupations.
