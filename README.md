@@ -4,6 +4,9 @@ A visualization of occupations int he US to get a better idea of what their walk
 ### Install
 The data viz uses the pygame package as the main engine behind the visualization. Follow the directions [here](https://www.pygame.org/wiki/GettingStarted) in order to install pygame on your system. A mouse is also required for the user interface.
 
+Generating the graphs and the visualization requires matplotlib and pillow packages. To install matplotlib and pillow, follow the directions [here](https://matplotlib.org/users/installing.html) and [here](https://pillow.readthedocs.io/en/5.0.0/installation.html), respectively.
+
+Manipulating the data requires pandas package. To install, follow the directions [here](https://pandas.pydata.org/pandas-docs/stable/install.html).
 ### Usage
 For the csv and mlx manipulation, in order to parse through different files the syntax is  `python excelmanupulation.py --e SOURCE` --excel for excel and --csv for csv.
 
