@@ -8,12 +8,6 @@ Generating the graphs and the visualization requires matplotlib and pillow packa
 
 Manipulating the data requires pandas package. To install, follow the directions [here](https://pandas.pydata.org/pandas-docs/stable/install.html).
 ### Usage
-For the csv and mlx manipulation, in order to parse through different files the syntax is  `python excelmanupulation.py --e SOURCE` --excel for excel and --csv for csv.
-
-(When ready)
-In the terminal simply run `python3 Occupation_Research.py` and enjoy!
-
-The interface looks like (insert snapshot)
 
 
 ### Authors
