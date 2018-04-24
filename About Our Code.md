@@ -1,10 +1,10 @@
-#How We Are Creating Our Visualization
+# About Our Code
 
 ## Overview
 We are extracting online data, placing it into graphs using Matplotlib and creating a graphic user interface with Pygame.
 
 The nuances of this operation are captured in our system architecture diagram:
-~add diagram~ ![alt text](https://github.com/coreyacl/DataViz/blob/master/Assignments/improved_system_architecture.pdf)
+![](https://github.com/coreyacl/DataViz/blob/master/Assignments/improved_system_architecture.pdf?raw=true)
 
 ### Collecting Data
 We're collecting data from a variety of sources, including:
