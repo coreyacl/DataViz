@@ -13,8 +13,8 @@ Farmer -        Farming, fishing, and forestry occupations.................. .
 Plumber -       Installation, maintenance, and repair occupations. . . . . . . . .
 Accountant -    Business and financial operations occupations......... .
 Physicist -     Life, physical, and social science occupations.......... .
-Surgeon -       Healthcare practitioner and technical occupations. . . . . . 
-
+Surgeon -       Healthcare practitioner and technical occupations. . . . . .
+"""
 
 def get_profession_data(dataframe, profession):
     """
