@@ -5,6 +5,16 @@ import numpy as np
 data = pd.read_csv("files/tabula-timework.csv")
 df = pd.DataFrame(data)
 
+"""
+Names to input into the function and the corresponding profession:
+Mech E -        Architecture and engineering occupations................ .
+Software Eng -  Computer and mathematical occupations................ .
+Farmer -        Farming, fishing, and forestry occupations.................. .
+Plumber -       Installation, maintenance, and repair occupations. . . . . . . . .
+Accountant -    Business and financial operations occupations......... .
+Physicist -     Life, physical, and social science occupations.......... .
+Surgeon -       Healthcare practitioner and technical occupations. . . . . . 
+
 
 def get_profession_data(dataframe, profession):
     """
@@ -35,5 +45,5 @@ def get_hoursworked(dataframe, profession, threshold):
 
     return len(time_data), time_data
 
-    
+
 print(get_hoursworked(df, 'Life, physical, and social science occupations.......... .', 45.0))
