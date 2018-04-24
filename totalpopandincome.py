@@ -41,5 +41,6 @@ def get_all_data(dataframe, profession, data_wanted):
         final_list.append(get_profession_data(dataframe, profession, i))
     return final_list
 
-data_wanted = [1,3,13]
-print(get_all_data(df, 2, data_wanted))
+#data_wanted = [1,3,13]
+#print(get_all_data(df, 2, data_wanted
+print(get_profession_data(df,2,4))
