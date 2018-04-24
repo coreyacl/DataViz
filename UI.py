@@ -25,7 +25,7 @@ white = (255,255,255)
 
 
 
-class Interface():
+class Screen():
     black = (0,0,0)
     white = (255,255,255)
     bx = 700
@@ -33,28 +33,45 @@ class Interface():
     font = py.font.SysFont("couriernew",32)
 
     def __init__(self,gD):
+        """
+        gD: gameDisplay for pygame
+        figres: list of figures (pygame img)
+        locs: list of location (tuple)
+        clickbox: list of clickbox blits (pygame rectangle)
+
+
+        """
         self.gD = gD
         self.figures = []
         self.locs = []
+        self.clickbox = []
+
 
         button = py.image.load('initialgraphs/income.png')
         self.figures.append(button)
         self.locs.append((500,700))
+        self.clickbox.append(gameDisplay.blit(button,(500,700)))
 
     def addFigure(self,fig,xl,yl,scale):
         """Creates a figure and places it at xl,yl
         fig: String of filename
         xl: x coordinate of figure (remember, top left is 0,0)
         yl: y coordinate of figure
-
+        scale: scaling factor of figure
         """
         img = py.image.load(fig)
         w,h = img.get_size()
         img = py.transform.scale(img,(int(w*scale),int(h*scale)))
         self.figures.append(img)
         self.locs.append((xl,yl))
+        self.clickbox.append(self.gD.blit(img,(xl,yl)))
 
     def update(self):
+        """ Updates the screen with all necesarry details
+        Does it IN ORDER so be careful
+
+
+        """
         self.gD.fill(self.white)
         box = py.surface.Surface((self.bx, self.by))
         box.fill(self.white)
@@ -62,24 +79,29 @@ class Interface():
         txt_rect = txt_surf.get_rect(center=(105, 40))
         box.blit(txt_surf, txt_rect)
         self.gD.blit(box,(30,0))
-        for x in range(len(self.locs)):
+        for x in range(1,len(self.locs)):
             self.gD.blit(self.figures[x],self.locs[x])
+            # self.gD.blit(self.clickbox[x])
 
 """ Create the GUIs """
-mainScreen = Interface(gameDisplay)
+mainScreen = Screen(gameDisplay)
+mainScreen.addFigure('mainFigures/farmer.jpeg',70,70,.6)
+mainScreen.addFigure('mainFigures/phys.jpeg',820,70,.4)
 
-mainScreen.addFigure('initialgraphs/times.png',70,70,1)
+phys = Screen(gameDisplay)
+phys.addFigure('initialgraphs/physicist.png',40,50,.4)
 
-phys = Interface(gameDisplay)
+farmer = Screen(gameDisplay)
+farmer.addFigure('initialgraphs/farmerstate.png',80,90,.4)
 
-phys.addFigure('initialgraphs/physicist.png',40,50,.5)
+# ADD IN ORDER!!
+screens = [mainScreen,farmer,phys]
 
-screens = [mainScreen,phys]
-
-b = gameDisplay.blit(mainScreen.figures[0],mainScreen.locs[0])
+# b = gameDisplay.blit(mainScreen.figures[0],mainScreen.locs[0])
 
 screenIndex = 0
 while running:
+    currentInterface = screens[screenIndex]
 
     for event in py.event.get():
         if event.type == py.QUIT:
@@ -90,18 +112,19 @@ while running:
         if event.type == py.MOUSEBUTTONDOWN:
             #print event.button
             pos = py.mouse.get_pos()
-            if b.collidepoint(pos):
-                if screenIndex == 0:
-                    screenIndex = 1
-                elif screenIndex > 0:
-                    screenIndex = 0
+            for x in range(len(currentInterface.locs)):
+                if currentInterface.clickbox[x].collidepoint(pos):
+                    if screenIndex == 0:
+                        screenIndex = x
+                    elif screenIndex > 0 and x == 0:
+                        screenIndex = 0
 
 
             # print(xm,ym)
     gameDisplay.fill(white)
 
 
-    screens[screenIndex].update()
+    currentInterface.update()
     py.display.update()
     clock.tick(60)
     # do stuff...
