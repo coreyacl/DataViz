@@ -1,15 +1,10 @@
----
-title: About Our Code
-layout: template
-filename: AboutOurCode.md
---- 
 # About Our Code
 
 ## Overview
 We are extracting online data, placing it into graphs using Matplotlib and creating a graphic user interface with Pygame.
 
 The nuances of this operation are captured in our system architecture diagram:
-![](https://github.com/coreyacl/DataViz/blob/master/Assignments/improved_system_architecture.pdf?raw=true)
+![](improved_system_architecture-1.png)
 
 ### Collecting Data
 We're collecting data from a variety of sources, including:
