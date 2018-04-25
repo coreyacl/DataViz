@@ -34,15 +34,16 @@ def get_profession_data(dataframe, profession, info_needed):
 Using the data collected in csv format, we produced different graphs to visualize different types of data.
 First, we represented annual income with a stack of "dollar bills" , where each sheet represents $10000.
 ![]({{"income.png"|absolute_url}})
+
 To represent the ideal daily schedule of people, we used a pie chart where each piece measures either the free time, work time, or sleep time.
 ![]({{"Pie_Chart.png"|absolute_url}})
+
 To display the population of people holding the particular job in the U.S., we used a circle diagram, where the sizes of the two circles portray the ratio of the population holding particular job to the entire U.S. adult population.
 ![]({{"Population_circle_diagram.png"|absolute_url}})
+
 To display the suicide rate of people holding the job, we will use a bar graph which compares the average suicide rate with the suicide rate of people with specific occupation.
 ![]({{"Suicide_Rate.png"|absolute_url}})
 
-
-### Creating an Interface
 
 ### Creating an Interface
 Using Pygame as a platform for the interface of the visualization seemed like the best route to go considering our previous exprience with it as well as the not-so-bright reviews about other means of creating an interactive interface. The process has been pretty straightforward in terms of coding the infrastructure for it. It currrently remains as a click-based interface. The one hurdle that we still face is transitions, which *can* be done but not without struggle. A figure of the current working interface is shown below.
