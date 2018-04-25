@@ -42,9 +42,12 @@ To display the suicide rate of people holding the job, we will use a bar graph w
 ![]({{"Suicide_Rate.png"|absolute_url}})
 
 
-
+### Creating an Interface
 
 ### Creating an Interface
+Using Pygame as a platform for the interface of the visualization seemed like the best route to go considering our previous exprience with it as well as the not-so-bright reviews about other means of creating an interactive interface. The process has been pretty straightforward in terms of coding the infrastructure for it. It currrently remains as a click-based interface. The one hurdle that we still face is transitions, which *can* be done but not without struggle. A figure of the current working interface is shown below.
+![]({{"UI_Example.png"|absolute_url}})
+We aim for a simplistic aethetic for the project that is still in development.
 
 
 
