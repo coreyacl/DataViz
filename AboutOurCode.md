@@ -16,11 +16,14 @@ From there, we are using Pandas to search the datasheets for specific values. We
 
 ### Creating Graphs
 Using the data collected in csv format, we produced different graphs to visualize different types of data.
-First, we represented annual income with a stack of "dollar bills" (green parallelograms), where each sheet represents $10000.
-To represent the ideal daily schedule of people, we used pie chart where each piece measures either the free time, work time, or sleep time.
+First, we represented annual income with a stack of "dollar bills" , where each sheet represents $10000.
+![]({{"income.png"|absolute_url}})
+To represent the ideal daily schedule of people, we used a pie chart where each piece measures either the free time, work time, or sleep time.
+![]({{"Pie Chart.png"|absolute_url}})
 To display the population of people holding the particular job in the U.S., we used a circle diagram, where the sizes of the two circles portray the ratio of the population holding particular job to the entire U.S. adult population.
+![]({{"Population circle diagram.png"|absolute_url}})
 To display the suicide rate of people holding the job, we will use a bar graph which compares the average suicide rate with the suicide rate of people with specific occupation.
-(state population explanation tbd)
+![]({{"Suicide Rate.png"|absolute_url}})
 
 
 
