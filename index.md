@@ -15,11 +15,11 @@ We aim to answer the questions:
 ## Our Intermediate Results
 
 Right now, we have graphs that represent our data, like this one: 
-![]({{"./Pie_Chart.png"|absolute_url}})
+![](./Pie_Chart.png)
 
 More Graphs can be found in the [about our code section](./AboutOurCode.md)
 
 We also have a User Interface that takes the graphs we have, and presents them to the user via Pygame:
-![]({{"./UI_Example.png"|absolute_url}})
+![](./UI_Example.png)
 
 
