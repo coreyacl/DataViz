@@ -7,7 +7,7 @@ During our first Architecture Review, we got feedback from our peers on possible
 Luckily, we found the U.S. Bureau of Labor Statistics, which contains a plethora of data in the field that we're looking at. From there, we found other, supporting data sources. We also decided to try the libraries recommended in the first architecture review and that's what we're using now. 
 
 We each worked on our tasks until the second Architecture Review. During this, we asked for advice on extracting and compiling data more smoothly, and we were told to use Pandas to solve our compiling issues. Pandas has made our data extraction noticeably more effective. We went from finding data in a file like this:
-````
+```
 #creating a list of professions
 lifescience = []
 farmer = []
@@ -31,9 +31,9 @@ def store_data_list(file_name, csv_text, profession_list):
         for row in plots:
             if csv_text in row:
                 profession_list.append(row)
-````
+```
 to
-````
+```
 data = pd.read_excel("files/OES_Report(1).xlsx")
 df = pd.DataFrame(data)
 
@@ -65,7 +65,7 @@ def get_profession_data(dataframe, profession, info_needed):
     one of the variables from above. It returns the specific value asked for."""
     output = dataframe.iloc[profession, info_needed]
     return output
-````
+```
 Even though it's still not ideal, we no longer have to create many lists to sort through the data. 
 
 We also asked for feedback on the types of graphs and their appearance. Our audience suggested to use a treemap for population instead of a bubble chart. They also suggested that we get help from our classmates on constructing a map of the US. In terms of aesthetics of the graphs, we were told that altair is a data visualization library that we could use. From this information, we have decided to use our intended bubble graph, considering that we only want to represent one occupation individually, instead of all the occupations at once. For the map of the U.S., the classmates we asked about it suggested that we use Bokeh. Therefore, we are still deciding which library to use.
