@@ -2,7 +2,7 @@
 
 This is a data visualization project concerning occupations in the United States. This project was created for the Software Design class at Olin College of Engineering.
 
-Find out [about Our Code](AboutOurCode.md) | Instructions at [Readme](README.md)| About our [Project Evolution](projectevolution.md)
+Find out [about Our Code](AboutOurCode.md) | Instructions at [Readme](README.html)| About our [Project Evolution](projectevolution.md)
 
 ## Our Goal
 
