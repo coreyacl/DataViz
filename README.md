@@ -8,7 +8,7 @@ Generating the graphs and the visualization requires matplotlib and pillow packa
 
 Manipulating the data requires pandas package. To install, follow the directions [here](https://pandas.pydata.org/pandas-docs/stable/install.html).
 ### Usage
-
+Our code is not yet compiled in a final Python script. However, in order to test the data extraction, you can run either suicide_divorce_rates.py, time_to_graph.py or totalpopandincome.py and follow the instructions for the arguments that are in the files. In order to test the graphs, run graphs.py. In order to test the UI, run UI.py
 
 ### Authors
 Corey, Alli, Junwon
