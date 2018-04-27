@@ -4,9 +4,11 @@ import matplotlib.patches as patches
 import matplotlib
 import numpy as np
 import pandas as pd
+import plotly.plotly as py
+from bokeh.plotting import figure, show, output_file
+from bokeh.sampledata.us_states import data as states
 from PIL import Image, ImageDraw, ImageFont
-import altair as alt
-from vega_datasets import data
+
 
 data = pd.read_excel("files/OES_Report(1).xlsx")
 df = pd.DataFrame(data)
@@ -57,6 +59,7 @@ def create_worktime(free_time, work_time, sleep):
     ax1.axis('equal')
     plt.title('Ideal Daily Schedule')
     plt.show()
+    fig1.savefig('Pie Chart.png')
 
 def create_income(income):
     fig = plt.figure()
@@ -71,7 +74,7 @@ def create_income(income):
     ax.set_xlabel('Income (1 sheet = $10000)')
     ax.set_title('Income for Engineer')
     plt.show()
-    #fig.savefig('income.png')
+    fig.savefig('income.png')
 
 def create_population(population):
     pop = population //1000000
@@ -94,29 +97,40 @@ def create_population(population):
                 200 + 160 * pop //2.3 , 200 + 160 * pop //2.3), 'red')
     draw.text(((W-w2)/2, (H-h2)/2), msg2, (255, 255, 0), font = font)
     image.show()
-    #image.save('Population circle diagram.png')
+    image.save('Population circle diagram.png')
 def create_map():
-    states = alt.topo_feature(data.us_10m.url, 'states')
 
-    pop_eng_hur = data.population_engineers_hurricanes.url
+    del states["HI"]
+    del states["AK"]
 
-    variable_list = ['population', 'engineers', 'hurricanes']
+    EXCLUDED = ("ak", "hi", "pr", "gu", "vi", "mp", "as")
 
-    chart = alt.Chart(states).mark_geoshape().properties(
-            projection={'type': 'albersUsa'},
-            width=500,
-            height=300
-            ).encode(
-            alt.Color(alt.repeat('row'), type='quantitative')
-            ).transform_lookup(
-            lookup='id',
-            from_=alt.LookupData(pop_eng_hur, 'id', variable_list)
-            ).repeat(
-            row=variable_list
-            ).resolve_scale(
-            color='independent'
-            )
-    chart.save('chart.html')
+    state_xs = [states[code]["lons"] for code in states]
+    state_ys = [states[code]["lats"] for code in states]
+
+    colors = ["#F1EEF6", "#D4B9DA", "#C994C7", "#DF65B0", "#DD1C77", "#980043"]
+
+    state_colors = []
+    for state_id in states:
+        #if states[state_id]["state"] in EXCLUDED:
+        #    continue
+        try:
+            rate = 30
+            idx = int(rate/6)
+            state_colors.append(colors[idx])
+        except KeyError:
+            state_colors.append("black")
+
+    p = figure(title="US Number of People with Occupation", toolbar_location="left",
+               plot_width=1100, plot_height=700)
+
+    p.patches(state_xs, state_ys, fill_color = state_colors,fill_alpha=0.7,
+              line_color="#884444", line_width=2, line_alpha=0.3)
+
+    output_file("choropleth.html", title="choropleth.py example")
+
+    show(p)
+
 
 def create_happiness(a, b):
     fig, ax = plt.subplots()
@@ -126,15 +140,15 @@ def create_happiness(a, b):
     rects1 = plt.bar(index, [a,b], bar_width,
                  alpha=opacity,
                  color='r')
-    plt.ylabel('Happiness Value')
-    plt.title('Happiness Factor')
+    plt.ylabel('Suicide Rate (per 100000 people)')
+    plt.title('Suicide Rate of Particular Job')
     plt.xticks(index, ('Average Job', 'Particular Job'))
     plt.tight_layout()
     plt.show()
-    #fig.savefig('Happiness_Factor.png')
+    fig.savefig('Suicide Rate.png')
 #create_population(get_profession_data(df,0,1))
 #create_worktime(8, 4, 12)
-create_income(get_profession_data(df,0,1))
+#create_income(get_profession_data(df,2,4))
 #create_happiness(5, 7)
-#create_map()
-print(get_profession_data(df,0,1))
+create_map()
+#print(get_profession_data(df,0,1))
