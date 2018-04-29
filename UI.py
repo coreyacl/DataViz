@@ -31,8 +31,12 @@ class Screen():
     bx = 700
     by = 100
     font = py.font.SysFont("couriernew",32)
+    bg = py.image.load('mainFigures/Bb-2.jpg')
+    bg = py.transform.rotate(bg,270)
+    w,h = bg.get_size()
+    bg = py.transform.scale(bg,(int(w*.7),int(h*.7)))
 
-    def __init__(self,gD):
+    def __init__(self,gD,name):
         """
         gD: gameDisplay for pygame
         figres: list of figures (pygame img)
@@ -42,15 +46,20 @@ class Screen():
 
         """
         self.gD = gD
+        self.name = name
         self.figures = []
         self.locs = []
         self.clickbox = []
 
 
-        button = py.image.load('initialgraphs/income.png')
+        button = py.image.load('mainFigures/button.png')
+        scale = .3
+        w,h = button.get_size()
+        button = py.transform.scale(button,(int(w*scale),int(h*scale)))
+
         self.figures.append(button)
-        self.locs.append((500,700))
-        self.clickbox.append(gameDisplay.blit(button,(500,700)))
+        self.locs.append((1100,800))
+        self.clickbox.append(gameDisplay.blit(button,(1100,800)))
 
     def addFigure(self,fig,xl,yl,scale):
         """Creates a figure and places it at xl,yl
@@ -66,36 +75,64 @@ class Screen():
         self.locs.append((xl,yl))
         self.clickbox.append(self.gD.blit(img,(xl,yl)))
 
-    def update(self):
+    def update(self,viewBackButton):
         """ Updates the screen with all necesarry details
         Does it IN ORDER so be careful
 
 
         """
-        self.gD.fill(self.white)
-        box = py.surface.Surface((self.bx, self.by))
-        box.fill(self.white)
-        txt_surf = self.font.render("Data Viz!", False, self.black)  # bottom line
-        txt_rect = txt_surf.get_rect(center=(105, 40))
-        box.blit(txt_surf, txt_rect)
-        self.gD.blit(box,(30,0))
-        for x in range(1,len(self.locs)):
-            self.gD.blit(self.figures[x],self.locs[x])
+        self.gD.fill(black)
+        self.gD.blit(self.bg,(0,-600))
+        # box = py.surface.Surface((self.bx, self.by))
+        # box.fill(self.white)
+        # txt_surf = self.font.render("Data Viz!", False, self.black)  # bottom line
+        # txt_rect = txt_surf.get_rect(center=(105, 40))
+        # box.blit(txt_surf, txt_rect)
+        # self.gD.blit(box,(30,0))
+        start = 0 if viewBackButton else 1
+        for x in range(start,len(self.locs)):
+            pos = self.locs[x]
+            # txt_surf = self.font.render(self.name, False, self.black)  # bottom line
+            # txt_rect = txt_surf.get_rect(center=(105, 40))
+            # box.blit(txt_surf, txt_rect)
+            # bos = py.surface.Surface((pos[0],pos[1] - 20))
+            #
+            self.gD.blit(self.figures[x],pos)
             # self.gD.blit(self.clickbox[x])
 
 """ Create the GUIs """
-mainScreen = Screen(gameDisplay)
-mainScreen.addFigure('mainFigures/farmer.jpeg',70,70,.6)
-mainScreen.addFigure('mainFigures/phys.jpeg',820,70,.4)
+mainScreen = Screen(gameDisplay,None)
 
-phys = Screen(gameDisplay)
+tlx,tly = 70,70
+mainScreen.addFigure('mainFigures/farmer.jpeg',tlx,tly,.6)
+mainScreen.addFigure('mainFigures/phys.jpeg',tlx+1130,tly,.4)
+mainScreen.addFigure('mainFigures/software.jpg',tlx+530,tly,.35)
+
+mainScreen.addFigure('mainFigures/surg.jpg',tlx,tly+400,.8)
+mainScreen.addFigure('mainFigures/meche.jpg',tlx+530,tly+400,1)
+
+mainScreen.addFigure('mainFigures/acc.jpg',tlx,tly+800,.45)
+mainScreen.addFigure('mainFigures/plumb.JPG',tlx+530,tly+750,.12)
+
+phys = Screen(gameDisplay,'Physicist')
 phys.addFigure('initialgraphs/physicist.png',40,50,.4)
+phys.addFigure('initialgraphs/times.png',850,50,1)
 
-farmer = Screen(gameDisplay)
+farmer = Screen(gameDisplay,'Farmer')
 farmer.addFigure('initialgraphs/farmerstate.png',80,90,.4)
 
+software = Screen(gameDisplay,'Software Developer')
+
+surgeon = Screen(gameDisplay,'Surgeon')
+
+meche = Screen(gameDisplay,'Mechanical Engineer')
+
+accountant = Screen(gameDisplay,'Accountant')
+
+plumber = Screen(gameDisplay,'Plumber')
+
 # ADD IN ORDER!!
-screens = [mainScreen,farmer,phys]
+screens = [mainScreen,farmer,phys,software,surgeon,meche,accountant,plumber]
 
 # b = gameDisplay.blit(mainScreen.figures[0],mainScreen.locs[0])
 
@@ -104,13 +141,13 @@ while running:
     currentInterface = screens[screenIndex]
 
     for event in py.event.get():
+        # print(event)
         if event.type == py.QUIT:
             running = False
         if event.type == py.KEYUP:
             if event.key == py.K_q:
                 running = False
-        if event.type == py.MOUSEBUTTONDOWN:
-            #print event.button
+        if event.type == py.MOUSEBUTTONDOWN and py.mouse.get_pressed()[0]:
             pos = py.mouse.get_pos()
             for x in range(len(currentInterface.locs)):
                 if currentInterface.clickbox[x].collidepoint(pos):
@@ -123,8 +160,8 @@ while running:
             # print(xm,ym)
     gameDisplay.fill(white)
 
-
-    currentInterface.update()
+    viewButton = True if screenIndex > 0 else False
+    currentInterface.update(viewButton)
     py.display.update()
     clock.tick(60)
     # do stuff...
