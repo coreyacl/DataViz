@@ -87,15 +87,18 @@ def get_specfic_value(database, profession, datatype):
 
     return output
 
-def get_hoursworked(database, profession, threshold):
+def get_hoursworked(profession, threshold):
     """
     This code will take a profession that you give it and find the accompanying
     row. Then it will parse that row to see which values are higher than the
     threshold. Next, it will create a list of those values and return the
     length of that list.
+
+    ex: get_hoursworked('engineer', 40) #I want the hours that more than 40%
+    of engineers are at work
     """
     time_data = []
-    all_time_data, row_index = get_right_row(database, profession)
+    all_time_data, row_index = get_right_row(timework_df, profession)
     all_time_data = list(map(float, all_time_data[1:])) #converts all of list to int
     for i in all_time_data:
         if i >= threshold:
@@ -126,7 +129,7 @@ def get_average(database,  datatype):
     average = np.mean(average_data)
 
     return int(average)
-    
+
 ###This is a helper function###
 def convert_state_string(state):
     """This function takes the string of a state name in a state excel sheet and converts
