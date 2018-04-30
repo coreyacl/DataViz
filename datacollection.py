@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib as plt
 import numpy as np
+import us_state_abbrev
 
 """
 OES_Report contains
@@ -32,9 +33,13 @@ State Data contains
   highest value in the list
 
 
-The way to use this is:
+The way to use this (in another script) is:
 
 output = datacollection.get_specfic_value(database, profession, datatype)
+
+for the average:
+
+average = datacollection.get_average(database, datatype)
 """
 
 #creating all the databases
@@ -74,7 +79,7 @@ def get_specfic_value(database, profession, datatype):
     #finding the column and its index
     colNames = database.columns[database.columns.str.contains(pat = str(datatype))]
     column = colNames[0]
-    colindex = OES_df.columns.get_loc(column)
+    colindex = database.columns.get_loc(column)
     #finding row index
     row, row_index = get_right_row(database, profession)
     #getting ouput
@@ -82,7 +87,7 @@ def get_specfic_value(database, profession, datatype):
 
     return output
 
-def get_hoursworked(dataframe, profession, threshold):
+def get_hoursworked(database, profession, threshold):
     """
     This code will take a profession that you give it and find the accompanying
     row. Then it will parse that row to see which values are higher than the
@@ -90,10 +95,110 @@ def get_hoursworked(dataframe, profession, threshold):
     length of that list.
     """
     time_data = []
-    all_time_data, row_index = get_right_row(dataframe, profession)
+    all_time_data, row_index = get_right_row(database, profession)
     all_time_data = list(map(float, all_time_data[1:])) #converts all of list to int
     for i in all_time_data:
         if i >= threshold:
             time_data.append(i)
 
     return len(time_data)
+
+def get_average(database,  datatype):
+    """This works for divorce rate and suicide rate. It takes all the rates or
+    numbers and returns an average"""
+    datatype = datatype.lower()
+    database.columns = database.columns.str.lower()
+    database = database.apply(lambda x: x.astype(str).str.lower())
+    colNames = database.columns[database.columns.str.contains(pat = str(datatype))]
+    column = colNames[0]
+    average_data = database[column].tolist()
+    #cleaning data
+    np.nan_to_num(average_data)
+    try:
+        for i in average_data:
+            if i == 'nan':
+                average_data.remove(i)
+
+    except:
+        average_data.remove(i)
+    #converting to float and taking mean
+    average_data = np.array(average_data).astype(np.float)
+    average = np.mean(average_data)
+
+    return int(average)
+    
+###This is a helper function###
+def convert_state_string(state):
+    """This function takes the string of a state name in a state excel sheet and converts
+        it to the state initial
+    state = ''.join(filter(str.isalpha or str.isspace, state))
+    initial = us_state_abbrev.us_state_abbrev.get(state)
+    return initial
+    """
+    only_text = []
+    for i in state:
+        if i.isalpha() or i.isspace():
+            only_text.append(i)
+    result = ''.join(only_text)
+    initial = us_state_abbrev.us_state_abbrev.get(result)
+    return initial
+
+###This is also a helper function###
+def convert_list_state(state_list):
+    """This function takes a list of states and converts them to their initials"""
+    initial_list = []
+    for item in state_list:
+        initial = convert_state_string(item)
+        initial_list.append(initial)
+    return initial_list
+
+
+def get_state_data(profession):
+    """
+    For this file, you have to enter the profession in the form:
+    farm
+    mech_eng
+    physicist
+    software
+    surgeon
+
+    for example: get_state_data('mech_eng')
+
+    This function takes in one of the above strings and outputs a list of
+    states in a uniform order, a list of corresponding number of employees,
+    and the max value of employees.
+
+    """
+    states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+    'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+
+    state = pd.read_excel("files/state_data/"+profession+".xlsx")
+    state_df = pd.DataFrame(state)
+
+    state_list = state_df['Area Name'].tolist()
+    initial_list = convert_list_state(state_list)
+    numbers_list = state_df['Employment'].tolist()
+
+    #searching through and adding states and corresponding 0's
+    initials = []
+    for i in enumerate(states):
+        if i[1] in states and i[1] not in initial_list:
+            initials.append(i[1])
+            try:
+                numbers_list.insert(i[0], 0)
+            except:
+                numbers_list.append(0) #accounting for the less list indeces
+
+    #completing the initials list
+    for i in initial_list:
+        initials.append(i)
+
+    initials.sort(key=lambda x: states.index(x))
+
+    #searching for highest value
+    max_employment = max(numbers_list)
+
+    return initials, numbers_list, max_employment
