@@ -87,6 +87,20 @@ def get_specfic_value(database, profession, datatype):
 
     return output
 
+def get_time_row(database, profession):
+  """ like get riht rows except it stores multiple rows"""
+  #converting to lowercase
+  database.columns = database.columns.str.lower()
+  database = database.apply(lambda x: x.astype(str).str.lower())
+ # database['Occupation'] = database['Occupation'].str.lower()
+  profession = profession.lower()
+  #locating
+  row_index = database.index[database['occupation'].str.contains(profession)].tolist()
+  rows = []
+  for i in row_index:
+      rows.append(database.loc[i])
+  return  rows
+
 def get_hoursworked(profession, threshold):
     """
     This code will take a profession that you give it and find the accompanying
@@ -98,13 +112,23 @@ def get_hoursworked(profession, threshold):
     of engineers are at work
     """
     time_data = []
-    all_time_data, row_index = get_right_row(timework_df, profession)
-    all_time_data = list(map(float, all_time_data[1:])) #converts all of list to int
+    rows = get_time_row(timework_df, profession)
+    all_time_data= []
+    for i in rows:
+        all_time_data.append(list(map(float, i[1:]))) #converts all of list to int
+
+    #making one flat list
+    flat_list = []
     for i in all_time_data:
+        for j in i:
+            flat_list.append(j)
+    for i in flat_list:
         if i >= threshold:
             time_data.append(i)
 
     return len(time_data)
+
+print(get_hoursworked('software', 1.0))
 
 def get_average(database,  datatype):
     """This works for divorce rate and suicide rate. It takes all the rates or
