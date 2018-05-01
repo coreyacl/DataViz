@@ -4,15 +4,26 @@ import matplotlib.patches as patches
 import matplotlib
 import numpy as np
 import pandas as pd
-import plotly.plotly as py
 from bokeh.plotting import figure, show, output_file
 from bokeh.sampledata.us_states import data as states
 from PIL import Image, ImageDraw, ImageFont
+import datacollection as dt
 
 
 data = pd.read_excel("files/OES_Report(1).xlsx")
 df = pd.DataFrame(data)
 
+OES = pd.read_excel("files/OES_Report(1).xlsx")
+OES_df = pd.DataFrame(OES)
+
+timework = pd.read_csv("files/tabula-timework.csv")
+timework_df = pd.DataFrame(timework)
+
+suiciderate = pd.read_csv("files/suiciderate.csv")
+suiciderate_df = pd.DataFrame(suiciderate)
+
+divorcerate  = pd.read_csv('files/tabula-divorce.csv')
+divorcerate_df = pd.DataFrame(divorcerate)
 """
 This is the information to input----
     For the profession:
@@ -47,19 +58,21 @@ def get_all_data(dataframe, profession, data_wanted):
         final_list.append(get_profession_data(dataframe, profession, i))
     return final_list
 
-def create_worktime(free_time, work_time, sleep):
+def create_worktime(work_time):
     labels = 'Free Time', 'Work Time', 'Sleep'
-
-    sizes = [free_time, work_time, sleep]
-    explode = (0, 0.1, 0)
+    sleep = 8
+    if work_time > 12:
+        sleep -= work_time - 12
+    sizes = [24-sleep - work_time, work_time, sleep]
+    explode = (0, 0, 0)
     fig1, ax1 = plt.subplots()
     ax1.pie(sizes, explode=explode, labels=labels,
-            autopct='%.0f%%',
+            autopct=lambda p: '{:.0f}'.format(p*24/100),
             shadow=True, startangle=90)
     ax1.axis('equal')
-    plt.title('Ideal Daily Schedule')
+    plt.title('Ideal Daily Schedule of Plumbers')
     plt.show()
-    fig1.savefig('Pie Chart.png')
+    fig1.savefig('Pie Chart for Plumbers.png')
 
 def create_income(income):
     fig = plt.figure()
@@ -72,22 +85,23 @@ def create_income(income):
         ax.set_xticks([])
         ax.set_yticks([])
     ax.set_xlabel('Income (1 sheet = $10000)')
-    ax.set_title('Income for Engineer')
+    ax.set_title('Annual Income for Plumbers')
     plt.show()
-    fig.savefig('income.png')
+    fig.savefig('income_for_plumbers.png')
 
 def create_population(population):
-    pop = population //1000000
+    pop = population //290000
     W, H = (400, 400)
     image = Image.new('RGB', (W, H))
     msg = 'Population Circle Diagram'
     msg1 = 'U.S. Population'
-    msg2 = 'Doctors'
+    msg2 = 'Plumbers'
     font = ImageFont.truetype('DejaVuSans.ttf', 15)
     draw = ImageDraw.Draw(image)
     w, h = draw.textsize(msg, font = font)
     w1, h1 = draw.textsize(msg1, font = font)
     w2, h2 = draw.textsize(msg2, font = font)
+    w3, h3 = draw.textsize(str(population), font = font)
     draw.ellipse((40, 40, 360, 360), fill = 'blue', outline ='blue')
     draw.text(((W-w)/2, 20), msg, (255, 255, 0), font = font)
     draw.text(((W-w1)/2, (H-h1)/4), msg1, (255, 255, 0), font = font)
@@ -96,41 +110,49 @@ def create_population(population):
     draw.ellipse((200 - 160 * pop //2.3 ,200 - 160 * pop //2.3,
                 200 + 160 * pop //2.3 , 200 + 160 * pop //2.3), 'red')
     draw.text(((W-w2)/2, (H-h2)/2), msg2, (255, 255, 0), font = font)
+    draw.text(((W-w3)/2, (H-h3)/2+15), str(population), (255, 255, 0), font = font)
     image.show()
-    image.save('Population circle diagram.png')
-def create_map():
+    image.save('Population circle diagram for Plumbers.png')
+def create_map(data):
+    dataset = []
+    states_list = data[0]
+    data_list = data[1]
+    states_list.pop(states_list.index('HI'))
+    data_list.pop(states_list.index('ID'))
+    states_list.pop(states_list.index('AK'))
+    data_list.pop(states_list.index('AZ'))
 
-    del states["HI"]
-    del states["AK"]
+    sum_data = data[2]
 
-    EXCLUDED = ("ak", "hi", "pr", "gu", "vi", "mp", "as")
+    EXCLUDED = ("pr", "gu", "vi", "mp", "as")
 
-    state_xs = [states[code]["lons"] for code in states]
-    state_ys = [states[code]["lats"] for code in states]
+    state_xs = [states[code]["lons"] for code in states_list]
+    state_ys = [states[code]["lats"] for code in states_list]
 
     colors = ["#F1EEF6", "#D4B9DA", "#C994C7", "#DF65B0", "#DD1C77", "#980043"]
 
     state_colors = []
-    for state_id in states:
+    for state in states_list:
         #if states[state_id]["state"] in EXCLUDED:
         #    continue
+        dataset.append(data_list[states_list.index(state)]/sum_data)
+        highest = max(dataset)
         try:
-            rate = 30
-            idx = int(rate/6)
+            rate = data_list[states_list.index(state)]/sum_data
+            idx = int(rate*6-1)
             state_colors.append(colors[idx])
         except KeyError:
             state_colors.append("black")
 
-    p = figure(title="US Number of People with Occupation", toolbar_location="left",
+    p = figure(title="Surgeons in the U.S.", toolbar_location="left",
                plot_width=1100, plot_height=700)
 
     p.patches(state_xs, state_ys, fill_color = state_colors,fill_alpha=0.7,
               line_color="#884444", line_width=2, line_alpha=0.3)
 
-    output_file("choropleth.html", title="choropleth.py example")
+    output_file("State Map for surgeons.html", title="choropleth.py example")
 
     show(p)
-
 
 def create_happiness(a, b):
     fig, ax = plt.subplots()
@@ -141,14 +163,17 @@ def create_happiness(a, b):
                  alpha=opacity,
                  color='r')
     plt.ylabel('Suicide Rate (per 100000 people)')
-    plt.title('Suicide Rate of Particular Job')
-    plt.xticks(index, ('Average Job', 'Particular Job'))
+    plt.title('Suicide Rate of Physicists')
+    plt.xticks(index, ('Average Job', 'Physicists'))
     plt.tight_layout()
     plt.show()
-    fig.savefig('Suicide Rate.png')
-#create_population(get_profession_data(df,0,1))
-#create_worktime(8, 4, 12)
-#create_income(get_profession_data(df,2,4))
-#create_happiness(5, 7)
-create_map()
-#print(get_profession_data(df,0,1))
+    fig.savefig('Suicide Rate for Physicists.png')
+#create_population(get_profession_data(df,6,1))
+#create_worktime(dt.get_hoursworked('plumber', 10))
+#create_income(get_profession_data(df,6,4))
+#create_happiness(dt.get_average(suiciderate_df, 'total'), 103)
+print(create_map(dt.get_state_data('surgeon')))
+#print(get_profession_data(df,6,1))
+#print(dt.get_state_data('mech_eng'))
+#print(dt.get_average(suiciderate_df, 'total'))
+#print(dt.get_specfic_value(suiciderate_df, 'Farmers', 'total'))
