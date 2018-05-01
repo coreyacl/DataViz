@@ -61,7 +61,31 @@ class Screen():
         self.locs.append((1220,850))
         self.clickbox.append(gameDisplay.blit(button,(1220,850)))
 
-    def addFigure(self,fig,xl,yl,scale):
+    def addFromFolder(self,*args):
+        """ Adds figures from folder
+        make sure that the files are names such in fileNames below
+        the position can be modified with a new list that gets passed in the function
+        just make sure that it's a list of tuples
+        """
+        folder = args[0]
+        pars  = args[1] if len(args) > 1 else [(50,50,.9),(700,50,.9),(50,650,.9),(700,600,1)]
+        fileNames = ['income','time','mort','population']
+        for x in range(len(fileNames)):
+            self.addFigure(str(folder+fileNames[x]+'.png'),pars[x])
+
+
+    def addFigure(self,*args):
+        if len(args) == 4:
+            fig = args[0]
+            xl = args[1]
+            yl = args[2]
+            scale = args[3]
+        if len(args) == 2:
+            fig = args[0]
+            xl = args[1][0]
+            yl = args[1][1]
+            scale = args[1][2]
+
         """Creates a figure and places it at xl,yl
         fig: String of filename
         xl: x coordinate of figure (remember, top left is 0,0)
@@ -104,62 +128,36 @@ class Screen():
 mainScreen = Screen(gameDisplay,None)
 
 tlx,tly = 70,70
-g1x,g1y = 0,0
-g2x,g2y = 650,0
-g3x,g3y = 0,550
-g4x,g4y = 650,550
-mainScreen.addFigure('mainFigures/farmer.jpeg',tlx,tly,.6)
-mainScreen.addFigure('mainFigures/phys.jpeg',tlx+1130,tly,.4)
-mainScreen.addFigure('mainFigures/software.jpg',tlx+530,tly,.35)
+mainScreen.addFigure('mainFigures/Farmer/rep.jpeg',tlx,tly,.6)
+mainScreen.addFigure('mainFigures/Physicist/rep.jpeg',tlx+1130,tly,.4)
+mainScreen.addFigure('mainFigures/Software Developer/rep.jpg',tlx+530,tly,.35)
 
-mainScreen.addFigure('mainFigures/surg.jpg',tlx,tly+400,.8)
-mainScreen.addFigure('mainFigures/meche.jpg',tlx+530,tly+400,1)
+mainScreen.addFigure('mainFigures/Surgeon/rep.jpg',tlx,tly+400,.8)
+mainScreen.addFigure('mainFigures/Mechanical Engineer/rep.jpg',tlx+530,tly+400,1)
 
-mainScreen.addFigure('mainFigures/acc.jpg',tlx,tly+800,.45)
-mainScreen.addFigure('mainFigures/plumb.JPG',tlx+530,tly+750,.12)
+mainScreen.addFigure('mainFigures/Accountant/rep.jpg',tlx,tly+800,.45)
+mainScreen.addFigure('mainFigures/Plumber/rep.JPG',tlx+530,tly+750,.12)
 
 phys = Screen(gameDisplay,'Physicist')
-phys.addFigure('mainFigures/income_for_physicist.png',g1x,g1y,.9)
-phys.addFigure('mainFigures/Pie Chart for Physicists.png',g2x,g2y,.9)
-phys.addFigure('mainFigures/Suicide Rate for Physicists.png',g3x,g3y,.9)
-phys.addFigure('mainFigures/Population circle diagram for Physicist.png',g4x,g4y,1)
+phys.addFromFolder('mainFigures/Physicist/')
 
 farmer = Screen(gameDisplay,'Farmer')
-farmer.addFigure('mainFigures/income_for_farmers.png',g1x,g1y,.9)
-farmer.addFigure('mainFigures/Pie Chart for Farmers.png',g2x,g2y,.9)
-farmer.addFigure('mainFigures/Suicide Rate for Farmers.png',g3x,g3y,.9)
-farmer.addFigure('mainFigures/Population circle diagram for Farmers.png',g4x,g4y,1)
+farmer.addFromFolder('mainFigures/Farmer/')
 
 software = Screen(gameDisplay,'Software Developer')
-software.addFigure('mainFigures/income_for_software_developer.png',g1x,g1y,.9)
-software.addFigure('mainFigures/Pie Chart for Software Developer.png',g2x,g2y,.9)
-software.addFigure('mainFigures/Suicide Rate for Software Developers.png',g3x,g3y,.9)
-software.addFigure('mainFigures/Population circle diagram for softdev.png',g4x,g4y,1)
-
+software.addFromFolder('mainFigures/Software Developer/')
 
 surgeon = Screen(gameDisplay,'Surgeon')
-surgeon.addFigure('mainFigures/income_for_surgeons.png',g1x,g1y,.9)
-surgeon.addFigure('mainFigures/Pie Chart for Surgeons.png',g2x,g2y,.9)
-surgeon.addFigure('mainFigures/Suicide Rate for Surgeons.png',g3x,g3y,.9)
-surgeon.addFigure('mainFigures/Population circle diagram for Surgeons.png',g4x,g4y,1)
+surgeon.addFromFolder('mainFigures/Surgeon/')
 
 meche = Screen(gameDisplay,'Mechanical Engineer')
-meche.addFigure('mainFigures/income_for_meche.png',g1x,g1y,.9)
-meche.addFigure('mainFigures/Pie Chart for Mechanical Engineers.png',g2x,g2y,.9)
-meche.addFigure('mainFigures/Suicide Rate for Mechanical Engineers.png',g3x,g3y,.9)
-meche.addFigure('mainFigures/Population circle diagram for meche.png',g4x,g4y,1)
+meche.addFromFolder('mainFigures/Mechanical Engineer/')
 
 accountant = Screen(gameDisplay,'Accountant')
-accountant.addFigure('mainFigures/income_for_accountant.png',g1x,g1y,.9)
-accountant.addFigure('mainFigures/Pie Chart for Accountant.png',g2x,g2y,.9)
-accountant.addFigure('mainFigures/Suicide Rate for Accountants.png',g3x,g3y,.9)
-accountant.addFigure('mainFigures/Population circle diagram for accountants.png',g4x,g4y,1)
+accountant.addFromFolder('mainFigures/Accountant/')
 
 plumber = Screen(gameDisplay,'Plumber')
-plumber.addFigure('mainFigures/income_for_plumbers.png',g1x,g1y,.9)
-plumber.addFigure('mainFigures/Pie Chart for Plumbers.png',g2x,g2y,.9)
-plumber.addFigure('mainFigures/Suicide Rate for Plumbers.png',g3x,g3y,.9)
-plumber.addFigure('mainFigures/Population circle diagram for Plumbers.png',g4x,g4y,1)
+plumber.addFromFolder('mainFigures/Plumber/')
 
 # ADD IN ORDER!!
 screens = [mainScreen,farmer,phys,software,surgeon,meche,accountant,plumber]
