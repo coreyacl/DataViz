@@ -31,7 +31,7 @@ Tabula-race contains
     race ratio by profession
     average race ratio
 
-Tabula-spending contains
+Spending contains
     spending by profession type
     average spending
 
@@ -67,13 +67,18 @@ divorcerate_df = pd.DataFrame(divorcerate)
 gender = pd.read_csv('files/tabula-gender.csv')
 gender_df = pd.DataFrame(gender)
 
-spending = pd.read_csv('files/tabula-spending.csv')
+spending = pd.read_csv('files/spending.csv')
 spending_df = pd.DataFrame(spending)
 
+spending_df = df = spending_df.set_index('item').T.rename_axis('occupation').rename_axis(None, 1).reset_index()
 
 
+
+### General Data Functions ###
 
 def get_right_row(database, profession):
+  """This is a helper function for get_specific_value. You don't need to use it.
+  It finds the right row in a database"""
   #converting to lowercase
   database.columns = database.columns.str.lower()
   database = database.apply(lambda x: x.astype(str).str.lower())
@@ -86,7 +91,7 @@ def get_right_row(database, profession):
   return  df2, row_index
 
 def get_specfic_value(database, profession, datatype):
-    """This works for OES data, divorce rate, suicide rate, gender ratio
+    """This works for OES data, divorce rate, suicide rate, gender ratio, spending
     *note : for divorce rate, the profession for mech e is "mechanical engineer"
             also for divorce rate, the profession for software is "software developer"
     """
@@ -106,8 +111,11 @@ def get_specfic_value(database, profession, datatype):
 
     return output
 
+### Time Functions ###
+
 def get_time_row(database, profession):
-  """ like get riht rows except it stores multiple rows"""
+  """ This is a helper function for get_hoursworked - You don't need to use it.
+  It works like get right rows except it stores multiple rows"""
   #converting to lowercase
   database.columns = database.columns.str.lower()
   database = database.apply(lambda x: x.astype(str).str.lower())
@@ -148,6 +156,7 @@ def get_hoursworked(profession, threshold):
     return len(time_data)
 
 
+### Average Function ###
 
 def get_average(database,  datatype):
     """This works for divorce rate and suicide rate. It takes all the rates or
@@ -173,13 +182,12 @@ def get_average(database,  datatype):
 
     return int(average)
 
-###This is a helper function###
+###### State Functions #######
+
 def convert_state_string(state):
-    """This function takes the string of a state name in a state excel sheet and converts
+    """ This is a helper function. You don't need to use it.
+    This function takes the string of a state name in a state excel sheet and converts
         it to the state initial
-    state = ''.join(filter(str.isalpha or str.isspace, state))
-    initial = us_state_abbrev.us_state_abbrev.get(state)
-    return initial
     """
     only_text = []
     for i in state:
@@ -189,9 +197,10 @@ def convert_state_string(state):
     initial = us_state_abbrev.us_state_abbrev.get(result)
     return initial
 
-###This is also a helper function###
+
 def convert_list_state(state_list):
-    """This function takes a list of states and converts them to their initials"""
+    """ This is also a helper function. You don't need to use it.
+    This function takes a list of states and converts them to their initials"""
     initial_list = []
     for item in state_list:
         initial = convert_state_string(item)
@@ -201,12 +210,12 @@ def convert_list_state(state_list):
 
 def get_state_data(profession):
     """
-    For this file, you have to enter the profession in the form:
-    farm
-    mech_eng
-    physicist
-    software
-    surgeon
+    For this function, you have to enter the profession in the form:
+    'farm'
+    'mech_eng'
+    'physicist'
+    'software'
+    'surgeon'
 
     for example: get_state_data('mech_eng')
 
