@@ -53,17 +53,17 @@ class Screen():
 
 
         button = py.image.load('mainFigures/button.png')
-        scale = .3
+        scale = .25
         w,h = button.get_size()
         button = py.transform.scale(button,(int(w*scale),int(h*scale)))
 
         self.figures.append(button)
-        self.locs.append((1100,800))
-        self.clickbox.append(gameDisplay.blit(button,(1100,800)))
+        self.locs.append((1220,850))
+        self.clickbox.append(gameDisplay.blit(button,(1220,850)))
 
     def addFigure(self,fig,xl,yl,scale):
-        """Creates a figure and places it at xl,yl
         fig: String of filename
+        """Creates a figure and places it at xl,yl
         xl: x coordinate of figure (remember, top left is 0,0)
         yl: y coordinate of figure
         scale: scaling factor of figure
@@ -104,6 +104,10 @@ class Screen():
 mainScreen = Screen(gameDisplay,None)
 
 tlx,tly = 70,70
+g1x,g1y = 0,0
+g2x,g2y = 650,0
+g3x,g3y = 0,550
+g4x,g4y = 650,550
 mainScreen.addFigure('mainFigures/farmer.jpeg',tlx,tly,.6)
 mainScreen.addFigure('mainFigures/phys.jpeg',tlx+1130,tly,.4)
 mainScreen.addFigure('mainFigures/software.jpg',tlx+530,tly,.35)
@@ -115,21 +119,47 @@ mainScreen.addFigure('mainFigures/acc.jpg',tlx,tly+800,.45)
 mainScreen.addFigure('mainFigures/plumb.JPG',tlx+530,tly+750,.12)
 
 phys = Screen(gameDisplay,'Physicist')
-phys.addFigure('initialgraphs/physicist.png',40,50,.4)
-phys.addFigure('initialgraphs/times.png',850,50,1)
+phys.addFigure('mainFigures/income_for_physicist.png',g1x,g1y,.9)
+phys.addFigure('mainFigures/Pie Chart for Physicists.png',g2x,g2y,.9)
+phys.addFigure('mainFigures/Suicide Rate for Physicists.png',g3x,g3y,.9)
+phys.addFigure('mainFigures/Population circle diagram for Physicist.png',g4x,g4y,1)
 
 farmer = Screen(gameDisplay,'Farmer')
-farmer.addFigure('initialgraphs/farmerstate.png',80,90,.4)
+farmer.addFigure('mainFigures/income_for_farmers.png',g1x,g1y,.9)
+farmer.addFigure('mainFigures/Pie Chart for Farmers.png',g2x,g2y,.9)
+farmer.addFigure('mainFigures/Suicide Rate for Farmers.png',g3x,g3y,.9)
+farmer.addFigure('mainFigures/Population circle diagram for Farmers.png',g4x,g4y,1)
 
 software = Screen(gameDisplay,'Software Developer')
+software.addFigure('mainFigures/income_for_software_developer.png',g1x,g1y,.9)
+software.addFigure('mainFigures/Pie Chart for Software Developer.png',g2x,g2y,.9)
+software.addFigure('mainFigures/Suicide Rate for Software Developers.png',g3x,g3y,.9)
+software.addFigure('mainFigures/Population circle diagram for softdev.png',g4x,g4y,1)
+
 
 surgeon = Screen(gameDisplay,'Surgeon')
+surgeon.addFigure('mainFigures/income_for_surgeons.png',g1x,g1y,.9)
+surgeon.addFigure('mainFigures/Pie Chart for Surgeons.png',g2x,g2y,.9)
+surgeon.addFigure('mainFigures/Suicide Rate for Surgeons.png',g3x,g3y,.9)
+surgeon.addFigure('mainFigures/Population circle diagram for Surgeons.png',g4x,g4y,1)
 
 meche = Screen(gameDisplay,'Mechanical Engineer')
+meche.addFigure('mainFigures/income_for_meche.png',g1x,g1y,.9)
+meche.addFigure('mainFigures/Pie Chart for Mechanical Engineers.png',g2x,g2y,.9)
+meche.addFigure('mainFigures/Suicide Rate for Mechanical Engineers.png',g3x,g3y,.9)
+meche.addFigure('mainFigures/Population circle diagram for meche.png',g4x,g4y,1)
 
 accountant = Screen(gameDisplay,'Accountant')
+accountant.addFigure('mainFigures/income_for_accountant.png',g1x,g1y,.9)
+accountant.addFigure('mainFigures/Pie Chart for Accountant.png',g2x,g2y,.9)
+accountant.addFigure('mainFigures/Suicide Rate for Accountants.png',g3x,g3y,.9)
+accountant.addFigure('mainFigures/Population circle diagram for accountants.png',g4x,g4y,1)
 
 plumber = Screen(gameDisplay,'Plumber')
+plumber.addFigure('mainFigures/income_for_plumbers.png',g1x,g1y,.9)
+plumber.addFigure('mainFigures/Pie Chart for Plumbers.png',g2x,g2y,.9)
+plumber.addFigure('mainFigures/Suicide Rate for Plumbers.png',g3x,g3y,.9)
+plumber.addFigure('mainFigures/Population circle diagram for Plumbers.png',g4x,g4y,1)
 
 # ADD IN ORDER!!
 screens = [mainScreen,farmer,phys,software,surgeon,meche,accountant,plumber]
@@ -162,6 +192,7 @@ while running:
 
     viewButton = True if screenIndex > 0 else False
     currentInterface.update(viewButton)
+    if
     py.display.update()
     clock.tick(60)
     # do stuff...
