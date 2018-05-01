@@ -27,6 +27,14 @@ Tabula-gender contains
   gender ratio by profession
   average gender ratio
 
+Tabula-race contains
+    race ratio by profession
+    average race ratio
+
+Tabula-spending contains
+    spending by profession type
+    average spending
+
 State Data contains
   list of states
   corresponding list of number of employees
@@ -56,6 +64,14 @@ suiciderate_df = pd.DataFrame(suiciderate)
 divorcerate  = pd.read_csv('files/tabula-divorce.csv')
 divorcerate_df = pd.DataFrame(divorcerate)
 
+gender = pd.read_csv('files/tabula-gender.csv')
+gender_df = pd.DataFrame(gender)
+
+spending = pd.read_csv('files/tabula-spending.csv')
+spending_df = pd.DataFrame(spending)
+
+
+
 
 def get_right_row(database, profession):
   #converting to lowercase
@@ -70,7 +86,10 @@ def get_right_row(database, profession):
   return  df2, row_index
 
 def get_specfic_value(database, profession, datatype):
-    """This works for OES data, divorce rate, suicide rate"""
+    """This works for OES data, divorce rate, suicide rate, gender ratio
+    *note : for divorce rate, the profession for mech e is "mechanical engineer"
+            also for divorce rate, the profession for software is "software developer"
+    """
     #formatting
     datatype = datatype.lower()
     database.columns = database.columns.str.lower()
