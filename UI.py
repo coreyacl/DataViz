@@ -62,8 +62,8 @@ class Screen():
         self.clickbox.append(gameDisplay.blit(button,(1220,850)))
 
     def addFigure(self,fig,xl,yl,scale):
-        fig: String of filename
         """Creates a figure and places it at xl,yl
+        fig: String of filename
         xl: x coordinate of figure (remember, top left is 0,0)
         yl: y coordinate of figure
         scale: scaling factor of figure
@@ -192,7 +192,6 @@ while running:
 
     viewButton = True if screenIndex > 0 else False
     currentInterface.update(viewButton)
-    if
     py.display.update()
     clock.tick(60)
     # do stuff...
