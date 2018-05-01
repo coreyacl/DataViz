@@ -128,7 +128,7 @@ def get_hoursworked(profession, threshold):
 
     return len(time_data)
 
-print(get_hoursworked('software', 1.0))
+
 
 def get_average(database,  datatype):
     """This works for divorce rate and suicide rate. It takes all the rates or
@@ -208,6 +208,11 @@ def get_state_data(profession):
     state_list = state_df['Area Name'].tolist()
     initial_list = convert_list_state(state_list)
     numbers_list = state_df['Employment'].tolist()
+
+    #filtering out none
+    for i in initial_list:
+        if i == None:
+            initial_list.remove(i)
 
     #searching through and adding states and corresponding 0's
     initials = []
