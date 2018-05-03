@@ -27,7 +27,7 @@ Tabula-gender contains
   gender ratio by profession
   average gender ratio
 
-Tabula-race contains
+race contains
     race ratio by profession
     average race ratio
 
@@ -67,6 +67,9 @@ divorcerate_df = pd.DataFrame(divorcerate)
 gender = pd.read_csv('files/tabula-gender.csv')
 gender_df = pd.DataFrame(gender)
 
+race = pd.read_excel("files/race.xlsx")
+race_df = pd.DataFrame(race)
+
 spending = pd.read_csv('files/spending.csv')
 spending_df = pd.DataFrame(spending)
 
@@ -94,6 +97,10 @@ def get_specfic_value(database, profession, datatype):
     """This works for OES data, divorce rate, suicide rate, gender ratio, spending
     *note : for divorce rate, the profession for mech e is "mechanical engineer"
             also for divorce rate, the profession for software is "software developer"
+    *note 2: the same applies for race. Also, the physicist data doesn't exist. Also,
+    the columns for the race data are : White, Black or African American,
+    Asian, Hispanic or Latino
+
     """
     #formatting
     datatype = datatype.lower()
@@ -110,6 +117,7 @@ def get_specfic_value(database, profession, datatype):
     output = database.iloc[int(row_index),int(colindex)]
 
     return output
+
 
 ### Time Functions ###
 
