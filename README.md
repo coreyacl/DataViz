@@ -1,6 +1,8 @@
 # DataViz - Occupation Visualization
 A visualization of occupations int he US to get a better idea of what their walk of life is like presented in an interactive way.
 
+If you want to see our project website, go [here](https://coreyacl.github.io/DataViz/)
+
 ### Install
 The data viz uses the pygame package as the main engine behind the visualization. Follow the directions [here](https://www.pygame.org/wiki/GettingStarted) in order to install pygame on your system. A mouse is also required for the user interface.
 
@@ -8,6 +10,7 @@ Generating the graphs and the visualization requires matplotlib and pillow packa
 
 Manipulating the data requires pandas package. To install, follow the directions [here](https://pandas.pydata.org/pandas-docs/stable/install.html).
 ### Usage
+
 
 
 ### Authors
