@@ -24,6 +24,13 @@ suiciderate_df = pd.DataFrame(suiciderate)
 
 divorcerate  = pd.read_csv('files/tabula-divorce.csv')
 divorcerate_df = pd.DataFrame(divorcerate)
+
+gender = pd.read_csv('files/tabula-gender.csv')
+gender_df = pd.DataFrame(gender)
+
+spending = pd.read_csv('files/tabula-spending.csv')
+spending_df = pd.DataFrame(spending)
+
 """
 This is the information to input----
     For the profession:
@@ -42,22 +49,18 @@ This is the information to input----
         hourly_median_wage = 8
         annual_median_wage = 13
 """
-
-def get_profession_data(dataframe, profession, info_needed):
-    """
-    This code will take a string that exactly matches one in the file and
-    one of the variables from above. It returns the specific value asked for."""
-    output = dataframe.iloc[profession, info_needed]
-    return output
-
-def get_all_data(dataframe, profession, data_wanted):
-    """This is the same as the previous one, except it takes all the data that you
-    want (in list form) and returns a new list with the outputs."""
-    final_list = []
-    for i in data_wanted:
-        final_list.append(get_profession_data(dataframe, profession, i))
-    return final_list
-
+def get_gender(a, b):
+    new_labels = 'Male', 'Female'
+    new_sizes = [a, b]
+    explode = (0, 0)
+    fig1, ax1 = plt.subplots()
+    ax1.pie(new_sizes, explode=explode, labels=new_labels,
+            autopct='%1.1f%%',
+            shadow=True, startangle=90)
+    ax1.axis('equal')
+    plt.title('Gender Ratio among Mechanical Engineers')
+    plt.show()
+    print(a, b)
 def create_worktime(work_time):
     labels = 'Free Time', 'Work Time', 'Sleep'
     sleep = 8
@@ -172,8 +175,9 @@ def create_happiness(a, b):
 #create_worktime(dt.get_hoursworked('plumber', 10))
 #create_income(get_profession_data(df,6,4))
 #create_happiness(dt.get_average(suiciderate_df, 'total'), 103)
-print(create_map(dt.get_state_data('surgeon')))
+#print(create_map(dt.get_state_data('surgeon')))
 #print(get_profession_data(df,6,1))
 #print(dt.get_state_data('mech_eng'))
 #print(dt.get_average(suiciderate_df, 'total'))
-#print(dt.get_specfic_value(suiciderate_df, 'Farmers', 'total'))
+#print(dt.get_specfic_value(suiciderate_df, 'installation', 'total'))
+get_gender(dt.get_specfic_value(gender_df, 'Mechanical engineer', 'Men'), dt.get_specfic_value(gender_df, 'Mechanical Engineer', 'Wmn'))
