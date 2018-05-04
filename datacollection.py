@@ -136,15 +136,13 @@ def get_time_row(database, profession):
       rows.append(database.loc[i])
   return  rows
 
-def get_hoursworked(profession, threshold):
+def get_hoursworked(profession):
     """
     This code will take a profession that you give it and find the accompanying
-    row. Then it will parse that row to see which values are higher than the
-    threshold. Next, it will create a list of those values and return the
-    length of that list.
+    row. It will return a list of all the hours of the day and the percentage of
+    workers in the specified occupation working at that hour.
 
-    ex: get_hoursworked('engineer', 40) #I want the hours that more than 40%
-    of engineers are at work
+    ex: times, percentage = get_hoursworked('engineer') , times come first
     """
     time_data = []
     rows = get_time_row(timework_df, profession)
@@ -153,15 +151,19 @@ def get_hoursworked(profession, threshold):
         all_time_data.append(list(map(float, i[1:]))) #converts all of list to int
 
     #making one flat list
-    flat_list = []
+
     for i in all_time_data:
         for j in i:
-            flat_list.append(j)
-    for i in flat_list:
-        if i >= threshold:
-            time_data.append(i)
+            time_data.append(j)
 
-    return len(time_data)
+    #making list of hours
+    list_times = list(timework_df.columns.values[1:]) #finding am values (they're the index)
+    #Evening times are nested in as a row
+    index_evening = timework_df.index[timework_df['occupation'].str.match('Occupation')].tolist()
+    list_evening = timework_df.iloc[int(index_evening[0])].values[1:] #even though its one value, index_evening returns a list
+    list_times.extend(list_evening)
+
+    return  list_times,  time_data
 
 
 ### Average Function ###
