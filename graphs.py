@@ -10,7 +10,9 @@ from bokeh.sampledata.us_states import data as states
 from PIL import Image, ImageDraw, ImageFont
 import datacollection as dt
 
-
+"""
+These are the datasets used to generate graphs.
+"""
 data = pd.read_excel("files/OES_Report(1).xlsx")
 df = pd.DataFrame(data)
 
@@ -35,25 +37,12 @@ spending_df = pd.DataFrame(spending)
 race = pd.read_excel("files/race.xlsx")
 race_df = pd.DataFrame(race)
 
-"""
-This is the information to input----
-    For the profession:
-        0 - Accountant
-        1 - Software Developer
-        2 - Mech E
-        3 - Physicist
-        4 - Surgeon
-        5 - Farmers
-        6 - Plumber
-    For the data you want :
-        #information by column
-        employment = 1
-        hourly_mean_wage = 3
-        annual_mean_wage = 4
-        hourly_median_wage = 8
-        annual_median_wage = 13
-"""
+
 def get_gender(a, b):
+    """
+    This function generates a pie chart for gender ratio in particular occupation.
+    The first argument is male percentage, the second argument is female percentage.
+    """
     new_labels = 'Male', 'Female'
     new_sizes = [a, b]
     explode = (0, 0)
@@ -65,8 +54,12 @@ def get_gender(a, b):
     plt.title('Gender Ratio')
     plt.show()
     fig1.savefig('gender.png', transparent = True)
-    print(a, b)
+
 def get_race(a, b, c, d):
+    """
+    This function generates a pie chart for ethnicity ratio in particular occupation.
+    The order of argument is White, Black or African American, Asian, and Hispanic or Latino.
+    """
     new_labels = 'White', 'Black or African American', 'Asian', 'Hispanic or Latino'
     new_sizes = [a, b, c, d]
     explode = (0, 0, 0.2, 0)
@@ -79,8 +72,12 @@ def get_race(a, b, c, d):
 
     plt.show()
     fig1.savefig('race.png', transparent = True)
-    print(a, b, c, d)
+
 def create_worktime(work_time):
+    """
+    This function creates a histogram that shows the percentage of workers
+    working throughout the 24 hour period.
+    """
     fig, ax = plt.subplots()
     time_list = work_time[0].index.tolist() + work_time[1].index.tolist()
     percent_list = work_time[0].tolist() + work_time[1].tolist()
@@ -103,6 +100,11 @@ def create_worktime(work_time):
     fig.savefig('time.png', transparent = True)
     return time_list
 def create_income(income):
+    """
+    This function creates a diagram that represents income using stack
+    of "paper bills", which are green parallelograms. Each bill represents
+    $10000.
+    """
     fig = plt.figure()
     ax = fig.add_subplot(111, aspect='equal')
     income = int(income) // 10000
@@ -118,7 +120,11 @@ def create_income(income):
     fig.savefig('income.png', transparent = True)
 
 def create_population(population):
-    pop = int(population) //420000
+    """
+    This function creates a circle diagram that represents population holding
+    particular occupation in the U.S.
+    """
+    pop = int(population) // 1.1*int(population)
     W, H = (400, 400)
     image = Image.new('RGBA', (W, H))
     msg = 'Population Circle Diagram'
@@ -142,6 +148,10 @@ def create_population(population):
     image.show()
     image.save('population.png', transparent = True)
 def modify_image(a):
+    """
+    This function modifies the image from create_population so that the
+    background is transparent.
+    """
     img = Image.open(a)
     imga = img.convert("RGBA")
     datas = imga.getdata()
@@ -156,6 +166,11 @@ def modify_image(a):
     imgb = Image.frombuffer("RGBA", imga.size, newData, "raw", "RGBA", 0, 1)
     imgb.save(a, "PNG")
 def create_map(data):
+    """
+    This function creates a choropleth U.S. map, where the shade of colors
+    in each state represents the density of people holding the occupation in
+    each state.
+    """
     dataset = []
     states_list = data[0]
     data_list = data[1]
@@ -197,6 +212,10 @@ def create_map(data):
     show(p)
     export_png(p, filename="map.png")
 def create_happiness(a, b):
+    """
+    This competition shows a bar graph that compares the average suicide rate
+    of U.S. workers with the suicide rate of people holding partiular job.
+    """
     fig, ax = plt.subplots()
     index = np.arange(2)
     bar_width = 0.3
@@ -212,26 +231,21 @@ def create_happiness(a, b):
     fig.savefig('mort.png')
 
 def create_graphs(a):
+    """
+    This function generates all the necessary graphs at once. You simply type
+    the occupation name.
+    """
     create_population(dt.get_specfic_value(OES_df, a, 'employment'))
     create_income(dt.get_specfic_value(OES_df, a, 'annual mean wage'))
-    create_happiness(dt.get_average(suiciderate_df, 'total'), 953)
+    create_happiness(dt.get_average(suiciderate_df, 'total'), dt.get_specfic_value(suiciderate_df, a, 'total'))
     get_gender(dt.get_specfic_value(gender_df, a, 'Men'), dt.get_specfic_value(gender_df, a, 'Wmn'))
     get_race(dt.get_specfic_value(race_df, a, 'White'), dt.get_specfic_value(race_df, a, 'black'), dt.get_specfic_value(race_df, a, 'asian'), dt.get_specfic_value(race_df, a, 'hispanic'))
     create_worktime(dt.get_time_row(timework_df, a))
-    #create_map(dt.get_state_data('mech_eng'))
-#create_worktime(dt.get_hoursworked('plumber', 10))
-#create_income(get_profession_data(df,6,4))
-#create_happiness(dt.get_average(suiciderate_df, 'total'), 103)
-#print(create_map(dt.get_state_data('surgeon')))
-#print(get_profession_data(df,6,1))
-#print(dt.get_state_data('mech_eng'))
-#print(dt.get_average(suiciderate_df, 'total'))
-#print(dt.get_specfic_value(suiciderate_df, 'installation', 'total'))
-#get_gender(dt.get_specfic_value(gender_df, 'accountant', 'Men'), dt.get_specfic_value(gender_df, 'accountant', 'Wmn'))
-#create_map(dt.get_state_data('software'))
-#get_race(dt.get_specfic_value(race_df, 'surgeon', 'white'), dt.get_specfic_value(race_df, 'surgeon', 'black'), dt.get_specfic_value(race_df, 'surgeon', 'asian'), dt.get_specfic_value(race_df, 'surgeon', 'Hispanic'))
-
-#create_map(dt.get_state_data('physicist'))
-#create_population(dt.get_specfic_value(OES_df, 'physicist', 'employment'))
-create_graphs('plumber')
-modify_image('population.png')
+    if a == 'physicist' or 'plumber':
+        break
+    if a == 'mechanical engineer':
+        create_map(dt.get_state_data('mech_eng'))
+    elif a == 'farmer':
+        create_map(dt.get_state_data('farm'))
+    else:
+        create_map(dt.get_state_data(a))
