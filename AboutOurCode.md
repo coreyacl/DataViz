@@ -4,7 +4,7 @@
 We are extracting online data, placing it into graphs using Matplotlib and creating a graphic user interface with Pygame.
 
 The nuances of this operation are captured in our system architecture diagram:
-![](./final_system_architecture.pdf)
+![](./final_system_architecture-1.png)
 
 ### Collecting Data
 We're collecting data from a variety of sources, including:
