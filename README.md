@@ -8,8 +8,26 @@ The data viz uses the pygame package as the main engine behind the visualization
 
 Generating the graphs and the visualization requires matplotlib and pillow packages. To install matplotlib and pillow, follow the directions [here](https://matplotlib.org/users/installing.html) and [here](https://pillow.readthedocs.io/en/5.0.0/installation.html), respectively.
 
-Manipulating the data requires pandas package. To install, follow the directions [here](https://pandas.pydata.org/pandas-docs/stable/install.html).
-### Usage
+Manipulating the data requires the pandas package. To install, follow the directions [here](https://pandas.pydata.org/pandas-docs/stable/install.html).
+
+### Experiencing the User Interface
+
+In order to run the user interface, in your terminal type:
+```
+python UI.py
+```
+
+### Using and manipulating all the scripts
+
+#### Data Extraction and Manipulation
+The code that is responisble for extracting the data from files and preparing it for creating graphs can be found at datacollection.py. Databases are added at the top of the file and running the different functions in the script return different values. For example:
+```
+output = get_specfic_value(gender_df, 'mechanical engineer', 'Man')
+```
+#### Creating Graphs
+
+### Creating the User Interface
+
 
 
 
