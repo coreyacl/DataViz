@@ -38,6 +38,7 @@ class Screen():
     bg = py.transform.scale(bg,(int(w*.7),int(h*.7)))
     listOfNames  = ['Farmer','Software Developer','Surgeon','Mechanical Engineer',
                     'Physicist','Plumber','Accountant']
+    z = False
 
     def __init__(self,gD,name):
         """
@@ -56,8 +57,9 @@ class Screen():
 
 
         button = py.image.load('FinalFigures/arrow.png')
-        scale = .25
-        lx,ly = 1400,1000
+        scale = .1
+        lx,ly = 20,20
+        # lx,ly = 1400,1000
         w,h = button.get_size()
         button = py.transform.scale(button,(int(w*scale),int(h*scale)))
 
@@ -77,8 +79,11 @@ class Screen():
 
         folder = args[0]
         pars  = args[1] if len(args) > 1 else \
-        [(700,600,.9),(700,50,.9),(700,50,.9),(550,600,1),(50,50,1),(0,0,.05),(50,650,1)]
+        [(850, -10, 0.75), (950, 750, 0.9), (950, 325, 0.9), (1250, -10, 0.9), (-90, 100, 1.0), (325, 100, 1.0), (50, 650, 0.75)]
         fileNames = ['income','time','mort','population','gender','race','map']
+        self.folder = folder
+        self.fileNames = fileNames
+        self.pars = pars
         for x in range(len(pars)):
             if os.path.isfile(folder+fileNames[x]+'.png'):
                 self.addFigure(str(folder+fileNames[x]+'.png'),pars[x])
@@ -122,6 +127,10 @@ class Screen():
         txt_rect = txt_surf.get_rect(topleft=pos)
         self.gD.blit(txt_surf,txt_rect)
 
+    def zoom(self,indexOfImage):
+        self.z = True
+        self.IOI = indexOfImage
+
     def update(self,viewBackButton):
         """ Updates the screen with all necesarry details
         Does it IN ORDER so be careful
@@ -139,8 +148,12 @@ class Screen():
             for x in range(len(self.listOfNames)):
                 self.renderText(self.listOfNames[x],(self.locs[x+1][0],self.locs[x+1][1]-30))
         else:
-            self.renderText(self.name,(20,20),True)
+            self.renderText(self.name,(100,20),True)
         start = 0 if viewBackButton else 1
+
+        if self.z:
+            pos = self.locs[self.IOI]
+            self.gD.blit(self.figures[self.IOI],pos)
 
         for x in range(start,len(self.locs)):
             pos = self.locs[x]
@@ -188,6 +201,10 @@ plumber.addFromFolder(folder+'/Plumber/')
 screens = [mainScreen,farmer,software,surgeon,meche,phys,plumber,accountant]
 
 screenIndex = 0
+notDone = False
+ind = 0
+bar = [(800, 650, 1.0), (450, 50, 0.9), (700, 50, 0.9), (900, 300, 1.0), (-70, 100, 1.0), (0, 0, 0.05), (50, 650, 0.75)]
+
 while running:
     currentInterface = screens[screenIndex]
 
@@ -200,12 +217,15 @@ while running:
                 running = False
         if event.type == py.MOUSEBUTTONDOWN and py.mouse.get_pressed()[0]:
             pos = py.mouse.get_pos()
+            currentInterface.z = False
             for x in range(len(currentInterface.locs)):
                 if currentInterface.clickbox[x].collidepoint(pos):
                     if screenIndex == 0:
                         screenIndex = x
                     elif screenIndex > 0 and x == 0:
                         screenIndex = 0
+                    # elif screenIndex > 0:
+                    #     currentInterface.zoom(x)
 
 
             # print(xm,ym)
@@ -214,6 +234,21 @@ while running:
     viewButton = True if screenIndex > 0 else False
     currentInterface.update(viewButton)
     py.display.update()
+    if notDone:
+        ind = int(input('index?'))
+        print(bar[ind])
+        a = input('Set?')
+        if a == 'yes':
+            bar[ind] = (int(input('x')),int(input('y')),int(input('scale:'))/100)
+        plumber = Screen(gameDisplay,'Plumber')
+        plumber.addFromFolder(folder+'/Plumber/',bar)
+        screens[6] = plumber
+        b = input('next?')
+        if b == 'yes':
+            ind = ind + 1
+        if b == 'done':
+            notDone = False
+        print(bar)
     clock.tick(60)
     # do stuff...
 
