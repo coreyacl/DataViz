@@ -70,9 +70,9 @@ class Screen():
         the position can be modified with a new list that gets passed in the function
         just make sure that it's a list of tuples
         """
-        try:
-            if not os.path.exists(args[0]):
-                raise ValueError("Folder doesn't exist!")
+        # try:
+        #     if not os.path.exists(args[0]):
+        #         raise ValueError("Folder doesn't exist!")
 
         folder = args[0]
         pars  = args[1] if len(args) > 1 else [(700,600,.9),(700,50,.9),(700,50,.9),(550,600,1),(50,50,1),(0,0,.05),(50,650,1)]
@@ -101,9 +101,9 @@ class Screen():
         yl: y coordinate of figure
         scale: scaling factor of figure
         """
-        try:
-            if not os.path.exists(args[0]):
-                raise ValueError("Folder doesn't exist!")
+        # try:
+        #     if not os.path.exists(args[0]):
+        #         raise ValueError("Folder doesn't exist!")
 
         img = py.image.load(fig)
         w,h = img.get_size()
@@ -149,7 +149,7 @@ mainScreen = Screen(gameDisplay,None)
 
 tlx,tly = 530,70
 sf = .3
-folder = 'FinalFigure'
+folder = 'FinalFigures'
 
 mainScreen.addFigure(folder+'/Farmer/rep.jpg',tlx,tly,.25)
 mainScreen.addFigure(folder+'/Software Developer/rep.jpg',tlx+530,tly,.27)
