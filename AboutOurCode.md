@@ -11,23 +11,42 @@ We're collecting data from a variety of sources, including:
 - U.S. Bureau of Labor Statistics
 - U.S. Bureau of Labor
 - Center for Disease Control and Prevention
-- [Flowing Data](http://flowingdata.com/2017/07/25/divorce-and-occupation)
+
+For a complete list of sources, see [sources](Sources.md)
 
 From these websites, we're pulling either csv files, excel files or pdf files. In the case of pdf files, we are converting them to csv files via Tabula.
-From there, we are using Pandas to search the datasheets for specific values. Ex:
+From there, we are using Pandas to import the datasheets to dataframes. Ex:
 ```
-data = pd.read_excel("files/OES_Report(1).xlsx")
-df = pd.DataFrame(data)
+gender = pd.read_csv('files/tabula-gender.csv')
+gender_df = pd.DataFrame(gender)
 ```
-We are creating functions that will easily find the correct data for the implementation of the graphs. If there aren't any complications with the datasheet, one cell can be extracted using: 
+We are creating functions that will easily find the correct data for the implementation of the graphs. One cell can be extracted using: 
 ```
+def get_specfic_value(database, profession, datatype):
+    """This works for OES data, divorce rate, suicide rate, gender ratio, spending
+    *note : for divorce rate, the profession for mech e is "mechanical engineer"
+            also for divorce rate, the profession for software is "software developer"
+    *note 2: the same applies for race. Also, the physicist data doesn't exist and
+    the columns for the race data are : White, Black or African American,
+    Asian, Hispanic or Latino
 
-def get_profession_data(dataframe, profession, info_needed):
     """
-    This code will take a string that exactly matches one in the file and
-    one of the variables from above. It returns the specific value asked for."""
-    output = dataframe.iloc[profession, info_needed]
+    #formatting
+    datatype = datatype.lower()
+    database.columns = database.columns.str.lower()
+    database = database.apply(lambda x: x.astype(str).str.lower())
+
+    #finding the column and its index
+    colNames = database.columns[database.columns.str.contains(pat = str(datatype))]
+    column = colNames[0]
+    colindex = database.columns.get_loc(column)
+    #finding row index
+    row, row_index = get_right_row(database, profession)
+    #getting ouput
+    output = database.iloc[int(row_index),int(colindex)]
+
     return output
+
 ```
 
 ### Creating Graphs
