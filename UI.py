@@ -30,11 +30,14 @@ class Screen():
     white = (255,255,255)
     bx = 700
     by = 100
-    font = py.font.SysFont("couriernew",32)
+    font = py.font.SysFont("couriernew",25)
+    title = py.font.SysFont("couriernew",50)
     bg = py.image.load('mainFigures/Bb-2.jpg')
     bg = py.transform.rotate(bg,270)
     w,h = bg.get_size()
     bg = py.transform.scale(bg,(int(w*.7),int(h*.7)))
+    listOfNames  = ['Farmer','Software Developer','Surgeon','Mechanical Engineer',
+                    'Physicist','Plumber','Accountant']
 
     def __init__(self,gD,name):
         """
@@ -73,7 +76,6 @@ class Screen():
         for x in range(len(fileNames)):
             self.addFigure(str(folder+fileNames[x]+'.png'),pars[x])
 
-
     def addFigure(self,*args):
         if len(args) == 4:
             fig = args[0]
@@ -99,6 +101,15 @@ class Screen():
         self.locs.append((xl,yl))
         self.clickbox.append(self.gD.blit(img,(xl,yl)))
 
+    def renderText(self,txt,pos,titleq=False):
+        if titleq:
+            txt_surf = self.title.render(txt,False,self.white)
+        else:
+            txt_surf = self.font.render(txt,False,self.white)
+        txt_rect = txt_surf.get_rect(topleft=pos)
+        self.gD.blit(txt_surf,txt_rect)
+
+
     def update(self,viewBackButton):
         """ Updates the screen with all necesarry details
         Does it IN ORDER so be careful
@@ -107,62 +118,62 @@ class Screen():
         """
         self.gD.fill(black)
         self.gD.blit(self.bg,(0,-600))
-        # box = py.surface.Surface((self.bx, self.by))
-        # box.fill(self.white)
-        # txt_surf = self.font.render("Data Viz!", False, self.black)  # bottom line
-        # txt_rect = txt_surf.get_rect(center=(105, 40))
-        # box.blit(txt_surf, txt_rect)
-        # self.gD.blit(box,(30,0))
+        if self.name == None:
+            self.renderText("Occupation",(30,50),True)
+            self.renderText("Visualization",(30,110),True)
+            self.renderText("Made by:",(30,470))
+            self.renderText("Alli Busa",(30,500))
+            self.renderText("Corey Cochran-Lepiz",(30,530))
+            self.renderText("Junwon Lee",(30,560))
+
+            for x in range(len(self.listOfNames)):
+                self.renderText(self.listOfNames[x],(self.locs[x+1][0],self.locs[x+1][1]-30))
         start = 0 if viewBackButton else 1
+
         for x in range(start,len(self.locs)):
             pos = self.locs[x]
-            # txt_surf = self.font.render(self.name, False, self.black)  # bottom line
-            # txt_rect = txt_surf.get_rect(center=(105, 40))
-            # box.blit(txt_surf, txt_rect)
-            # bos = py.surface.Surface((pos[0],pos[1] - 20))
-            #
             self.gD.blit(self.figures[x],pos)
-            # self.gD.blit(self.clickbox[x])
 
 """ Create the GUIs """
 mainScreen = Screen(gameDisplay,None)
 
-tlx,tly = 70,70
-mainScreen.addFigure('mainFigures/Farmer/rep.jpeg',tlx,tly,.6)
-mainScreen.addFigure('mainFigures/Physicist/rep.jpeg',tlx+1130,tly,.4)
-mainScreen.addFigure('mainFigures/Software Developer/rep.jpg',tlx+530,tly,.35)
+tlx,tly = 530,70
+sf = .3
+folder = 'FinalFigures'
 
-mainScreen.addFigure('mainFigures/Surgeon/rep.jpg',tlx,tly+400,.8)
-mainScreen.addFigure('mainFigures/Mechanical Engineer/rep.jpg',tlx+530,tly+400,1)
+mainScreen.addFigure(folder+'/Farmer/rep.jpg',tlx,tly,.25)
+mainScreen.addFigure(folder+'/Software Developer/rep.jpg',tlx+530,tly,.27)
 
-mainScreen.addFigure('mainFigures/Accountant/rep.jpg',tlx,tly+800,.45)
-mainScreen.addFigure('mainFigures/Plumber/rep.JPG',tlx+530,tly+750,.12)
+mainScreen.addFigure(folder+'/Surgeon/rep.jpg',tlx,tly+400,.25)
+mainScreen.addFigure(folder+'/Mechanical Engineer/rep.jpg',tlx+530,tly+400,.27)
+
+mainScreen.addFigure(folder+'/Physicist/rep.jpg',20,tly+770,.37)
+mainScreen.addFigure(folder+'/Plumber/rep.JPG',tlx,tly+770,.25)
+mainScreen.addFigure(folder+'/Accountant/rep.jpg',tlx+530,tly+770,.275)
 
 phys = Screen(gameDisplay,'Physicist')
-phys.addFromFolder('mainFigures/Physicist/')
+phys.addFromFolder(folder+'/Physicist/')
 
 farmer = Screen(gameDisplay,'Farmer')
-farmer.addFromFolder('mainFigures/Farmer/')
+farmer.addFromFolder(folder+'/Farmer/')
 
 software = Screen(gameDisplay,'Software Developer')
-software.addFromFolder('mainFigures/Software Developer/')
+software.addFromFolder(folder+'/Software Developer/')
 
 surgeon = Screen(gameDisplay,'Surgeon')
-surgeon.addFromFolder('mainFigures/Surgeon/')
+surgeon.addFromFolder(folder+'/Surgeon/')
 
 meche = Screen(gameDisplay,'Mechanical Engineer')
-meche.addFromFolder('mainFigures/Mechanical Engineer/')
+meche.addFromFolder(folder+'/Mechanical Engineer/')
 
 accountant = Screen(gameDisplay,'Accountant')
-accountant.addFromFolder('mainFigures/Accountant/')
+accountant.addFromFolder(folder+'/Accountant/')
 
 plumber = Screen(gameDisplay,'Plumber')
-plumber.addFromFolder('mainFigures/Plumber/')
+plumber.addFromFolder(folder+'/Plumber/')
 
 # ADD IN ORDER!!
 screens = [mainScreen,farmer,phys,software,surgeon,meche,accountant,plumber]
-
-# b = gameDisplay.blit(mainScreen.figures[0],mainScreen.locs[0])
 
 screenIndex = 0
 while running:
