@@ -55,14 +55,15 @@ class Screen():
         self.clickbox = []
 
 
-        button = py.image.load('mainFigures/button.png')
+        button = py.image.load('FinalFigures/arrow.png')
         scale = .25
+        lx,ly = 1400,1000
         w,h = button.get_size()
         button = py.transform.scale(button,(int(w*scale),int(h*scale)))
 
         self.figures.append(button)
-        self.locs.append((1220,850))
-        self.clickbox.append(gameDisplay.blit(button,(1220,850)))
+        self.locs.append((lx,ly))
+        self.clickbox.append(gameDisplay.blit(button,(lx,ly)))
 
     def addFromFolder(self,*args):
         """ Adds figures from folder
@@ -75,7 +76,8 @@ class Screen():
         #         raise ValueError("Folder doesn't exist!")
 
         folder = args[0]
-        pars  = args[1] if len(args) > 1 else [(700,600,.9),(700,50,.9),(700,50,.9),(550,600,1),(50,50,1),(0,0,.05),(50,650,1)]
+        pars  = args[1] if len(args) > 1 else \
+        [(700,600,.9),(700,50,.9),(700,50,.9),(550,600,1),(50,50,1),(0,0,.05),(50,650,1)]
         fileNames = ['income','time','mort','population','gender','race','map']
         for x in range(len(pars)):
             if os.path.isfile(folder+fileNames[x]+'.png'):
