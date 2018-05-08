@@ -27,27 +27,31 @@ white = (255,255,255)
 
 
 class Screen():
+    """ This is the basis for the entire UI
+    Each 'screen' is saved as this object that contains all of the
+    photos that appear as well as some helpful functions to render text
+    as weel as a zoom in function that the main while loop helps manage.
+    """
     black = (0,0,0)
     white = (255,255,255)
     bx = 700
     by = 100
-    font = py.font.SysFont("couriernew",25)
-    title = py.font.SysFont("couriernew",50)
-    bg = py.image.load('FinalFigures/Wb-5.jpg')
+    font = py.font.SysFont("couriernew",25) #for regular text
+    title = py.font.SysFont("couriernew",50) #for title text
+    bg = py.image.load('FinalFigures/Wb-5.jpg') #for background
     w,h = bg.get_size()
-    bg = py.transform.scale(bg,(int(w*.7),int(h*.7)))
+    bg = py.transform.scale(bg,(int(w*.7),int(h*.7))) #scaling for grey button that sometimes appears
     listOfNames  = ['Farmer','Software Developer','Surgeon','Mechanical Engineer',
-                    'Physicist','Plumber','Accountant']
-    z = False
+                    'Physicist','Plumber','Accountant'] #unhealthy hardcode but neccesary 
+    z = False #zoom boolean
 
     def __init__(self,gD,name):
         """
         gD: gameDisplay for pygame
-        figres: list of figures (pygame img)
+        name: name of screen (string)
+        figures: list of figures (pygame img)
         locs: list of location (tuple)
         clickbox: list of clickbox blits (pygame rectangle)
-
-
         """
         self.gD = gD
         self.name = name
@@ -73,10 +77,6 @@ class Screen():
         the position can be modified with a new list that gets passed in the function
         just make sure that it's a list of tuples
         """
-        # try:
-        #     if not os.path.exists(args[0]):
-        #         raise ValueError("Folder doesn't exist!")
-
         folder = args[0]
         pars  = args[1] if len(args) > 1 else \
         [(850, -10, 0.75), (950, 750, 0.9), (950, 325, 0.9), (1250, 0, 0.65), (-90, 100, 1.0), (325, 100, 1.0), (50, 650, 0.75)]
@@ -91,6 +91,11 @@ class Screen():
                 print(fileNames[x] + " not found for " + self.name)
 
     def addFigure(self,*args):
+        """ adds figures according to file name
+        takes the x position and y position
+        as well as a scale.
+        accepts four ints or one int and a tuple of three
+        """
         if len(args) == 4:
             fig = args[0]
             xl = args[1]
@@ -120,6 +125,11 @@ class Screen():
         self.clickbox.append(self.gD.blit(img,(xl,yl)))
 
     def renderText(self,txt,pos,titleq=False):
+        """ Renders text on screen given 
+        txt (string)
+        pos (tuple of two) of the top left of the text
+        titeq (boolean) if its a title text
+        """
         if titleq:
             txt_surf = self.title.render(txt,False,self.black)
         else:
@@ -128,6 +138,8 @@ class Screen():
         self.gD.blit(txt_surf,txt_rect)
 
     def zoom(self,indexOfImage):
+        """ zooms in on an image and prevents other images from rendering.
+        """
         self.z = True
         self.IOI = indexOfImage
         img = py.image.load(self.folder+self.fileNames[indexOfImage-1]+'.png')
@@ -135,7 +147,7 @@ class Screen():
         sC = self.pars[indexOfImage-1][2]*2
         img = py.transform.scale(img,(int(w*sC),int(h*sC)))
         self.zFig = img
-        self.zPos = (10,10)
+        self.zPos = (10,70)
 
     def update(self,viewBackButton):
         """ Updates the screen with all necesarry details
@@ -154,6 +166,7 @@ class Screen():
             for x in range(len(self.listOfNames)):
                 self.renderText(self.listOfNames[x],(self.locs[x+1][0],self.locs[x+1][1]-30))
         else:
+            # else the rest of the screens for title
             self.renderText(self.name,(100,20),True)
         start = 0 if viewBackButton else 1
 
@@ -167,8 +180,7 @@ class Screen():
 """ Create the GUIs """
 mainScreen = Screen(gameDisplay,None)
 
-tlx,tly = 530,70
-sf = .3
+tlx,tly = 530,70 #the top left of the set of 6 images
 folder = 'FinalFigures'
 
 mainScreen.addFigure(folder+'/Farmer/rep.jpg',tlx,tly,.25)
@@ -206,9 +218,6 @@ plumber.addFromFolder(folder+'/Plumber/')
 screens = [mainScreen,farmer,software,surgeon,meche,phys,plumber,accountant]
 
 screenIndex = 0
-notDone = False
-ind = 0
-bar = [(800, 650, 1.0), (450, 50, 0.9), (700, 50, 0.9), (900, 300, 1.0), (-70, 100, 1.0), (0, 0, 0.05), (50, 650, 0.75)]
 
 while running:
     currentInterface = screens[screenIndex]
@@ -234,29 +243,10 @@ while running:
             else:
                 currentInterface.z = False
 
-            # print(xm,ym)
-    gameDisplay.fill(white)
-
     viewButton = True if screenIndex > 0 else False
     currentInterface.update(viewButton)
     py.display.update()
-    if notDone:
-        ind = int(input('index?'))
-        print(bar[ind])
-        a = input('Set?')
-        if a == 'yes':
-            bar[ind] = (int(input('x')),int(input('y')),int(input('scale:'))/100)
-        plumber = Screen(gameDisplay,'Plumber')
-        plumber.addFromFolder(folder+'/Plumber/',bar)
-        screens[6] = plumber
-        b = input('next?')
-        if b == 'yes':
-            ind = ind + 1
-        if b == 'done':
-            notDone = False
-        print(bar)
     clock.tick(60)
-    # do stuff...
 
 
 py.quit()
