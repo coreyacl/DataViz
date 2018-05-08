@@ -25,8 +25,22 @@ The code that is responisble for extracting the data from files and preparing it
 ```
 output = get_specfic_value(gender_df, 'mechanical engineer', 'Man')
 ```
-will return the percentage of male mechanical engineers. 
+will return the percentage of male mechanical engineers.
+
 #### Creating Graphs
+To generate all the graphs for one particular occupation, on the bottom of the file graphs.py, type the following:
+```
+create_graphs(job)
+```
+where job is a string of the occupation name.
+
+Then, run the following command:
+```
+python graphs.py
+```
+
+This will create and save all graphs necessary for one particular occupation.
+Currently, the available jobs are mechanical engineers, surgeons, farmers, physicists, accountants, software developers, and plumbers.
 
 ### Creating the User Interface
 The UI code pull all of its images from a main folder that should contain all of the following:

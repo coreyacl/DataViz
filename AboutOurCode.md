@@ -50,14 +50,14 @@ def get_specfic_value(database, profession, datatype):
 ```
 
 ### Creating Graphs
-Using the data collected in csv format, we produced different graphs to visualize different types of data
+Using the data collected in csv format, we produced different graphs to visualize different types of data.
 
-The graphs are produced using the collected data. Some graphs simply takes the name of the occupation as an arguments, while some require pre-evaluated data to be the argument.
+The graphs are produced using the collected data. To make the process easier, the functions are designed such that the users simply type the job title into the function.
 
-For instance, the income diagram, which represents annual income with a stack of "dollar bills", requires the argument to be a numerical value.
+For instance, the income diagram, which represents annual income with a stack of "dollar bills", takes the job title and creates a graph.
 
 ```
-def create_income(income):
+def create_income(job):
     """
     This function creates a diagram that represents income using stack
     of "paper bills", which are green parallelograms. Each bill represents
@@ -65,7 +65,7 @@ def create_income(income):
     """
     fig = plt.figure()
     ax = fig.add_subplot(111, aspect='equal')
-    income = int(income) // 10000
+    income = int(dt.get_specfic_value(OES_df, job, 'annual mean wage')) // 10000
     for i in range(0,income):
         x = [0.2,0.7,.8,.3]
         y = [0.15 + i*0.05,0.15+i*0.05,0.25+i*0.05,0.25+i*0.05]
@@ -81,55 +81,59 @@ def create_income(income):
 As a result, this function generates graphs like this.
 ![]({{"income.png"|absolute_url}})
 
-On the other hand, the schedule diagram, which shows the percentage of people with particular occupation at work in specific hour frame, requires the input to be Pandas Series. The function separates the index, or the hour frame, from the data, which contains the percentages of people at work. The snippet below demonstrates this process.
-
+On the other hand, the schedule diagram, which shows the percentage of people with particular occupation at work in specific hour frame, simply asks for the string of job title. The function will then find the appropriate Pandas Series for the job, and create a bar graphs that shows the percentage of people at work in particular hour.
 ```
-def create_worktime(work_time):
+def create_worktime(job):
     """
     This function creates a histogram that shows the percentage of workers
     working throughout the 24 hour period.
-    Note: work_time is Pandas Series
     """
+    work_time = dt.get_time_row(timework_df, job)
     fig, ax = plt.subplots()
     time_list = work_time[0].index.tolist() + work_time[1].index.tolist()
     percent_list = work_time[0].tolist() + work_time[1].tolist()
     percent_list = [x for x in percent_list if "plumber" not in x]
     time_list = [x for x in time_list if "occupation" not in x]
     percent_list = list(map(float, percent_list))
-
+    for i in range(12, 24):
+        string = time_list[i]
+        if i == 12:
+            string = str(i) + ' pm'
+        else:
+            string = str(i-12) + ' pm'
+        time_list[i] = string
+    y_pos = np.arange(len(time_list))
+    bar = plt.bar(y_pos, percent_list, align='center', alpha=0.5)
+    plt.xticks(y_pos, time_list, rotation = 'vertical')
+    plt.ylabel('Percent of People at Work')
+    plt.title('When do they work?')
+    plt.show()
+    fig.savefig('time.png', transparent = True)
 ```
 
 As a result of this function, the graph below is created.
-![]({{"Pie_Chart.png"|absolute_url}})
+![]({{"time.png"|absolute_url}})
 
-To represent the population of people holding the particular job in the U.S., we used a create_population function, which produces a circle diagram, where the sizes of the two circles portray the ratio of the population holding particular job to the entire U.S. adult population. The create_population takes the integer as an argument.
+Other graphs also simply require the input of job title.
 
+Once all the graph-generating functions are created, we created a single function create_graphs that produces all the graphs at once. Once again, it only requires the job title.
 ```
-def create_population(population):
+def create_graphs(job):
     """
-    This is simply the snippet of the code.
-    This function creates a circle diagram that represents population holding
-    particular occupation in the U.S.
+    This function generates all the necessary graphs at once. You simply type
+    the occupation name.
     """
-    pop = int(dt.get_specfic_value(OES_df, population, 'employment'))
-    pop1 = pop/1000000
-    W, H = (500, 500)
+    create_population(job)
+    create_income(job)
+    compare_suicide(job)
+    get_gender(job)
+    get_race(job)
+    create_worktime(job)
+    create_map(job)
 ```
-
-![]({{"Population_circle_diagram.png"|absolute_url}})
-
-To display the suicide rate of people holding the job, we used a bar graph which compares the average suicide rate with the suicide rate of people with specific occupation.
-
-```
-def compare_happiness(a, b):
-```
-
-
-![]({{"Suicide_Rate.png"|absolute_url}})
-
 
 ### Creating an Interface
-Using Pygame as a platform for the interface of the visualization seemed like the best route to go considering our previous exprience with it as well as the not-so-bright reviews about other means of creating an interactive interface. The process has been pretty straightforward in terms of coding the infrastructure for it. It currrently remains as a click-based interface. 
+Using Pygame as a platform for the interface of the visualization seemed like the best route to go considering our previous exprience with it as well as the not-so-bright reviews about other means of creating an interactive interface. The process has been pretty straightforward in terms of coding the infrastructure for it. It currrently remains as a click-based interface.
 ![](./UI_pic.png)
 We aimed for a simplistic aethetic for the project.
 
@@ -152,7 +156,7 @@ class Screen():
     w,h = bg.get_size()
     bg = py.transform.scale(bg,(int(w*.7),int(h*.7))) #scaling for grey button that sometimes appears
     listOfNames  = ['Farmer','Software Developer','Surgeon','Mechanical Engineer',
-                    'Physicist','Plumber','Accountant'] #unhealthy hardcode but neccesary 
+                    'Physicist','Plumber','Accountant'] #unhealthy hardcode but neccesary
     z = False #zoom boolean
 
     def __init__(self,gD,name):
