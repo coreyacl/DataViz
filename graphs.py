@@ -79,11 +79,17 @@ def create_worktime(job):
     This function creates a histogram that shows the percentage of workers
     working throughout the 24 hour period.
     """
+    if job == 'farmer':
+        job = 'farm'
+    if job == 'software developer':
+        job = 'software'
+    if job == 'mechaninal engineer':
+        job = 'engineer'
     work_time = dt.get_time_row(timework_df, job)
     fig, ax = plt.subplots()
     time_list = work_time[0].index.tolist() + work_time[1].index.tolist()
     percent_list = work_time[0].tolist() + work_time[1].tolist()
-    percent_list = [x for x in percent_list if "plumber" not in x]
+    percent_list = [x for x in percent_list if job not in x]
     time_list = [x for x in time_list if "occupation" not in x]
     percent_list = list(map(float, percent_list))
     for i in range(12, 24):
@@ -107,6 +113,8 @@ def create_income(job):
     of "paper bills", which are green parallelograms. Each bill represents
     $10000.
     """
+    if job == 'farmer':
+        job = 'farm'
     fig = plt.figure()
     ax = fig.add_subplot(111, aspect='equal')
     income = int(dt.get_specfic_value(OES_df, job, 'annual mean wage')) // 10000
@@ -126,6 +134,8 @@ def create_population(job):
     This function creates a circle diagram that represents population holding
     particular occupation in the U.S.
     """
+    if job == 'farmer':
+        job = 'farm'
     pop = int(dt.get_specfic_value(OES_df, job, 'employment'))
     pop1 = pop/1000000
     W, H = (500, 500)
@@ -134,6 +144,8 @@ def create_population(job):
         r = 5
     if pop < 100000:
         r = 10
+    if job == 'farm':
+        job = 'Farmers'
     image = Image.new('RGBA', (W, H))
     msg = 'Population Circle Diagram'
     msg1 = 'U.S. Adult Population'
@@ -165,7 +177,7 @@ def create_map(job):
     """
     if job == 'mechaninal engineer':
         job = 'mech_eng'
-    elif job == 'farmers':
+    elif job == 'farmer':
         job = 'farm'
     elif job == 'software developer':
         job = 'software'
@@ -214,8 +226,9 @@ def compare_suicide(job):
     This function shows a bar graph that compares the average suicide rate
     of U.S. workers with the suicide rate of people holding partiular job.
     """
-    if job == 'Software Developers':
+    if job == 'software developer':
         job = 'software'
+
     value = int(float(dt.get_specfic_value(suiciderate_df, job, 'total')))
     fig, ax = plt.subplots()
     index = np.arange(2)
@@ -245,3 +258,4 @@ def create_graphs(job):
     get_race(job)
     create_worktime(job)
     create_map(job)
+create_graphs('software developer')
