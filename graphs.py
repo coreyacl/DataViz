@@ -206,10 +206,9 @@ def create_map(job):
     p.patches(state_xs, state_ys, fill_color = state_colors,fill_alpha=0.7,
               line_color="#884444", line_width=2, line_alpha=0.3)
     p.background_fill_alpha = 0
-    #output_file("State Map for Accountants.html", title="choropleth.py example")
 
     show(p)
-    export_png(p, filename="map.png")
+    #export_png(p, filename="map.png") IGNORE THIS LINE
 def compare_suicide(job):
     """
     This function shows a bar graph that compares the average suicide rate
