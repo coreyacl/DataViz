@@ -135,7 +135,7 @@ class Screen():
         sC = self.pars[indexOfImage-1][2]*2
         img = py.transform.scale(img,(int(w*sC),int(h*sC)))
         self.zFig = img
-        self.zPos = (10,10)
+        self.zPos = (10,70)
 
     def update(self,viewBackButton):
         """ Updates the screen with all necesarry details
