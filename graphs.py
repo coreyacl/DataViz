@@ -31,20 +31,20 @@ divorcerate_df = pd.DataFrame(divorcerate)
 gender = pd.read_csv('files/tabula-gender.csv')
 gender_df = pd.DataFrame(gender)
 
-spending = pd.read_csv('files/tabula-spending.csv')
-spending_df = pd.DataFrame(spending)
+#spending = pd.read_csv('files/tabula-spending.csv')
+#spending_df = pd.DataFrame(spending)
 
 race = pd.read_excel("files/race.xlsx")
 race_df = pd.DataFrame(race)
 
 
-def get_gender(a, b):
+def get_gender(job):
     """
     This function generates a pie chart for gender ratio in particular occupation.
-    The first argument is male percentage, the second argument is female percentage.
+    Simply type the job name.
     """
     new_labels = 'Male', 'Female'
-    new_sizes = [a, b]
+    new_sizes = [dt.get_specfic_value(gender_df, job, 'Men'), dt.get_specfic_value(gender_df, job, 'Wmn')]
     explode = (0, 0)
     fig1, ax1 = plt.subplots()
     ax1.pie(new_sizes, explode=explode, labels=new_labels,
@@ -53,15 +53,15 @@ def get_gender(a, b):
     ax1.axis('equal')
     plt.title('Gender Ratio')
     plt.show()
-    fig1.savefig('FinalProject/FinalFigures/' + 'gender.png', transparent = True)
+    fig1.savefig('gender.png', transparent = True)
 
-def get_race(a, b, c, d):
+def get_race(job):
     """
     This function generates a pie chart for ethnicity ratio in particular occupation.
-    The order of argument is White, Black or African American, Asian, and Hispanic or Latino.
+    It takes the occupation name as an argument.
     """
     new_labels = 'White', 'Black or African American', 'Asian', 'Hispanic or Latino'
-    new_sizes = [a, b, c, d]
+    new_sizes = [dt.get_specfic_value(race_df, job, 'White'), dt.get_specfic_value(race_df, job, 'black'), dt.get_specfic_value(race_df, job, 'asian'), dt.get_specfic_value(race_df, job, 'hispanic')]
     explode = (0, 0, 0.2, 0)
     fig1, ax1 = plt.subplots()
     ax1.pie(new_sizes, explode=explode, labels=new_labels,
@@ -73,11 +73,12 @@ def get_race(a, b, c, d):
     plt.show()
     fig1.savefig('race.png', transparent = True)
 
-def create_worktime(work_time):
+def create_worktime(job):
     """
     This function creates a histogram that shows the percentage of workers
     working throughout the 24 hour period.
     """
+    work_time = dt.get_time_row(timework_df, job)
     fig, ax = plt.subplots()
     time_list = work_time[0].index.tolist() + work_time[1].index.tolist()
     percent_list = work_time[0].tolist() + work_time[1].tolist()
@@ -99,7 +100,7 @@ def create_worktime(work_time):
     plt.show()
     fig.savefig('time.png', transparent = True)
     return time_list
-def create_income(income):
+def create_income(job):
     """
     This function creates a diagram that represents income using stack
     of "paper bills", which are green parallelograms. Each bill represents
@@ -107,7 +108,7 @@ def create_income(income):
     """
     fig = plt.figure()
     ax = fig.add_subplot(111, aspect='equal')
-    income = int(income) // 10000
+    income = int(dt.get_specfic_value(OES_df, job, 'annual mean wage')) // 10000
     for i in range(0,income):
         x = [0.2,0.7,.8,.3]
         y = [0.15 + i*0.05,0.15+i*0.05,0.25+i*0.05,0.25+i*0.05]
@@ -119,12 +120,12 @@ def create_income(income):
     plt.show()
     fig.savefig('income.png', transparent = True)
 
-def create_population(population):
+def create_population(job):
     """
     This function creates a circle diagram that represents population holding
     particular occupation in the U.S.
     """
-    pop = int(dt.get_specfic_value(OES_df, population, 'employment'))
+    pop = int(dt.get_specfic_value(OES_df, job, 'employment'))
     pop1 = pop/1000000
     W, H = (500, 500)
     r = 50
@@ -135,7 +136,7 @@ def create_population(population):
     image = Image.new('RGBA', (W, H))
     msg = 'Population Circle Diagram'
     msg1 = 'U.S. Adult Population'
-    msg2 = population
+    msg2 = job
     font = ImageFont.truetype('DejaVuSans.ttf', 15)
     draw = ImageDraw.Draw(image)
     w, h = draw.textsize(msg, font = font)
@@ -154,30 +155,18 @@ def create_population(population):
     draw.rectangle(((250 - 210 * pop1/300 , 250 - 210 * pop1 /300) , (250 + 210 * pop1/300, (H-h3)*3/5)), fill="black")
     image.show()
     image.save('population.png', transparent = True)
-def modify_image(a):
-    """
-    This function modifies the image from create_population so that the
-    background is transparent.
-    """
-    img = Image.open(a)
-    imga = img.convert("RGBA")
-    datas = imga.getdata()
 
-    newData = list()
-    for item in datas:
-        if item[0] == 255 and item[1] == 255 and item[2] == 255:
-            newData.append([255, 255, 255, 0])
-        else:
-            newData.append(item)
-
-    imgb = Image.frombuffer("RGBA", imga.size, newData, "raw", "RGBA", 0, 1)
-    imgb.save(a, "PNG")
-def create_map(data):
+def create_map(job):
     """
     This function creates a choropleth U.S. map, where the shade of colors
     in each state represents the density of people holding the occupation in
     each state.
     """
+    if job == 'mechancinal engineer':
+        job = 'mech_eng'
+    elif job == 'farmers':
+        job = 'farm'
+    data = dt.get_state_data(job)
     dataset = []
     states_list = data[0]
     data_list = data[1]
@@ -218,40 +207,42 @@ def create_map(data):
 
     show(p)
     export_png(p, filename="map.png")
-def create_happiness(a, b):
+def compare_suicide(job):
     """
-    This competition shows a bar graph that compares the average suicide rate
+    This function shows a bar graph that compares the average suicide rate
     of U.S. workers with the suicide rate of people holding partiular job.
     """
+    if job == 'Software Developers':
+        job = 'software'
+    value = int(float(dt.get_specfic_value(suiciderate_df, job, 'total')))
     fig, ax = plt.subplots()
     index = np.arange(2)
     bar_width = 0.3
     opacity = 0.8
-    rects1 = plt.bar(index, [a,b], bar_width,
+    rects1 = plt.bar(index, [dt.get_average(suiciderate_df, 'total'), value], bar_width,
                  alpha=opacity,
                  color='r')
     plt.ylabel('Suicide Rate (per 100000 people)')
     plt.title('Suicide Rate')
-    plt.xticks(index, ('Average Job', 'Farmers'))
+    if job == 'software':
+        job = 'Software Developers'
+    plt.xticks(index, ('Average Job', job))
     plt.tight_layout()
     plt.show()
     fig.savefig('mort.png', transparent = True)
 
-def create_graphs(a):
+def create_graphs(job):
     """
     This function generates all the necessary graphs at once. You simply type
     the occupation name.
     """
-    create_population(a)
-    create_income(dt.get_specfic_value(OES_df, a, 'annual mean wage'))
-    create_happiness(dt.get_average(suiciderate_df, 'total'), dt.get_specfic_value(suiciderate_df, a, 'total'))
-    get_gender(dt.get_specfic_value(gender_df, a, 'Men'), dt.get_specfic_value(gender_df, a, 'Wmn'))
-    get_race(dt.get_specfic_value(race_df, a, 'White'), dt.get_specfic_value(race_df, a, 'black'), dt.get_specfic_value(race_df, a, 'asian'), dt.get_specfic_value(race_df, a, 'hispanic'))
-    create_worktime(dt.get_time_row(timework_df, a))
-    if a == 'mechanical engineer':
-        create_map(dt.get_state_data('mech_eng'))
-    elif a == 'farmer':
-        create_map(dt.get_state_data('farm'))
-    else:
-        create_map(dt.get_state_data(a))
-create_population('Farm')
+    create_population(job)
+    create_income(job)
+    compare_suicide(job)
+    get_gender(job)
+    get_race(job)
+    create_worktime(job)
+    create_map(job)
+#create_population('Farm')
+#create_graphs('Software Developers')
+compare_suicide('Software Developers')
