@@ -79,7 +79,7 @@ class Screen():
 
         folder = args[0]
         pars  = args[1] if len(args) > 1 else \
-        [(850, -10, 0.75), (950, 750, 0.9), (950, 325, 0.9), (1250, -10, 0.9), (-90, 100, 1.0), (325, 100, 1.0), (50, 650, 0.75)]
+        [(850, -10, 0.75), (950, 750, 0.9), (950, 325, 0.9), (1250, 0, 0.65), (-90, 100, 1.0), (325, 100, 1.0), (50, 650, 0.75)]
         fileNames = ['income','time','mort','population','gender','race','map']
         self.folder = folder
         self.fileNames = fileNames
@@ -130,6 +130,12 @@ class Screen():
     def zoom(self,indexOfImage):
         self.z = True
         self.IOI = indexOfImage
+        img = py.image.load(self.folder+self.fileNames[indexOfImage-1]+'.png')
+        w,h = img.get_size()
+        sC = self.pars[indexOfImage-1][2]*2
+        img = py.transform.scale(img,(int(w*sC),int(h*sC)))
+        self.zFig = img
+        self.zPos = (10,10)
 
     def update(self,viewBackButton):
         """ Updates the screen with all necesarry details
@@ -152,12 +158,11 @@ class Screen():
         start = 0 if viewBackButton else 1
 
         if self.z:
-            pos = self.locs[self.IOI]
-            self.gD.blit(self.figures[self.IOI],pos)
-
-        for x in range(start,len(self.locs)):
-            pos = self.locs[x]
-            self.gD.blit(self.figures[x],pos)
+            self.gD.blit(self.zFig,self.zPos)
+        else:
+            for x in range(start,len(self.locs)):
+                pos = self.locs[x]
+                self.gD.blit(self.figures[x],pos)
 
 """ Create the GUIs """
 mainScreen = Screen(gameDisplay,None)
@@ -217,16 +222,17 @@ while running:
                 running = False
         if event.type == py.MOUSEBUTTONDOWN and py.mouse.get_pressed()[0]:
             pos = py.mouse.get_pos()
-            currentInterface.z = False
-            for x in range(len(currentInterface.locs)):
-                if currentInterface.clickbox[x].collidepoint(pos):
-                    if screenIndex == 0:
-                        screenIndex = x
-                    elif screenIndex > 0 and x == 0:
-                        screenIndex = 0
-                    # elif screenIndex > 0:
-                    #     currentInterface.zoom(x)
-
+            if not currentInterface.z:
+                for x in range(len(currentInterface.locs)):
+                    if currentInterface.clickbox[x].collidepoint(pos):
+                        if screenIndex == 0:
+                            screenIndex = x
+                        elif screenIndex > 0 and x == 0:
+                            screenIndex = 0
+                        elif screenIndex > 0:
+                            currentInterface.zoom(x)
+            else:
+                currentInterface.z = False
 
             # print(xm,ym)
     gameDisplay.fill(white)
