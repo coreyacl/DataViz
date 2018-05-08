@@ -116,7 +116,7 @@ As a result of this function, the graph below is created.
 
 Other graphs also simply require the input of job title.
 
-Once all the graph-generating functions are created, we created a single function create_graphs that produces all the graphs at once. Once again, it only requires the job title.
+Once all the graph-generating functions are created, we created a single function create_graphs that produces all the graphs at once. Once again, it only requires the job title. The sample line create_graphs('software developer') is written on the bottom of the code.
 ```
 def create_graphs(job):
     """
@@ -131,7 +131,7 @@ def create_graphs(job):
     create_worktime(job)
     create_map(job)
 ```
-Note that create_map function will create a window which shows the graph, but it won't save it in png format. To save the image, there is a save button on the left side of the graph. Click that button, and save the image into png format. This is much easier than installing multiple packages. 
+Note that create_map function will create a window which shows the graph, but it won't save it in png format. To save the image, there is a save button on the left side of the graph. Click that button, and save the image into png format. This is much easier than installing multiple packages.
 ### Creating an Interface
 Using Pygame as a platform for the interface of the visualization seemed like the best route to go considering our previous exprience with it as well as the not-so-bright reviews about other means of creating an interactive interface. The process has been pretty straightforward in terms of coding the infrastructure for it. It currrently remains as a click-based interface.
 ![](./UI_pic.png)
