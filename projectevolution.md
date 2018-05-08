@@ -19,25 +19,9 @@ professions = [lifescience, farmer, business, computer, repair, engineering]
 x_real= []
 y = [] #for the y axis of the graph , later
 
-def store_data_list(file_name, csv_text, profession_list):
-    """
-    Takes the file and finds the row with the text you're looking for. In this
-    case, it will take the name of a profession and returns a list that contains
-    the name of the profession and the data associated with it. In the example I'm using,
-    it's time.
-    """
-    with open(file_name, 'r') as csvfile:
-        plots = csv.reader(csvfile, delimiter=",")
-        for row in plots:
-            if csv_text in row:
-                profession_list.append(row)
 ```
 to
 ```
-data = pd.read_excel("files/OES_Report(1).xlsx")
-df = pd.DataFrame(data)
-
-
 """
 This is the information to input----
     For the profession:
@@ -56,17 +40,16 @@ This is the information to input----
         hourly_median_wage = 8
         annual_median_wage = 13
 """
-
-
-
-def get_profession_data(dataframe, profession, info_needed):
-    """
-    This code will take a string that exactly matches one in the file and
-    one of the variables from above. It returns the specific value asked for."""
-    output = dataframe.iloc[profession, info_needed]
-    return output
 ```
-Even though it's still not ideal, we no longer have to create many lists to sort through the data.
+and now we have:
+```
+def get_hoursworked(profession):
+    """
+    This code will take a profession that you give it and find the accompanying
+    row. It will return a list of all the hours of the day and the percentage of
+    workers in the specified occupation working at that hour.
+```
+A function in which the argument is just a string. 
 
 We also asked for feedback on the types of graphs and their appearance. Our audience suggested to use a treemap for population instead of a bubble chart. They also suggested that we get help from our classmates on constructing a map of the US. In terms of aesthetics of the graphs, we were told that altair is a data visualization library that we could use. From this information, we have decided to use our intended bubble graph, considering that we only want to represent one occupation individually, instead of all the occupations at once. For the map of the U.S., the classmates we asked about it suggested that we use Bokeh. Consequently, we decided to use Bokeh to create the choropleth map that showed the density of people holding particular occupations in each state. For simple graphs like pie charts and bar graphs, our classmates suggested matplotlib, so we used this library to produce the rest of the graphs.
 
