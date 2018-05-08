@@ -30,13 +30,13 @@ will return the percentage of male mechanical engineers.
 
 ### Creating the User Interface
 The UI code pull all of its images from a main folder that should contain all of the following:
--income (income for each of the proffesions)
--time (the workhours of each)
--mort (suicide rates)
--population (total population in the U.S.)
--gender (ratio)
--map (population in each state)
--rep (the image that appears on the main screen)
+  - income (income for each of the proffesions)
+  - time (the workhours of each)
+  - mort (suicide rates)
+  - population (total population in the U.S.)
+  - gender (ratio)
+  - map (population in each state)
+  - rep (the image that appears on the main screen)
 
 The locations and scaling are all configured according to the output of the functions that create them.
 ### Authors
