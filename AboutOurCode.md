@@ -126,7 +126,7 @@ def create_graphs(job):
     create_population(job)
     create_income(job)
     compare_suicide(job)
-    get_gender(job)
+    get_gnder(job)
     get_race(job)
     create_worktime(job)
     create_map(job)
