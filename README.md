@@ -3,6 +3,8 @@ A visualization of occupations int he US to get a better idea of what their walk
 
 If you want to see our project website, go [here](https://coreyacl.github.io/DataViz/)
 
+If you want to see the video we made for our project, go [here](https://vimeo.com/268615482)
+
 ### Install
 The data viz uses the pygame package as the main engine behind the visualization. Follow the directions [here](https://www.pygame.org/wiki/GettingStarted) in order to install pygame on your system. A mouse is also required for the user interface.
 
