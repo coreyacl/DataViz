@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import bokeh
 from bokeh.plotting import figure, show, output_file
+from bokeh.io import export_png
 from bokeh.sampledata.us_states import data as states
 from PIL import Image, ImageDraw, ImageFont
 import datacollection as dt
@@ -162,10 +163,12 @@ def create_map(job):
     in each state represents the density of people holding the occupation in
     each state.
     """
-    if job == 'mechancinal engineer':
+    if job == 'mechaninal engineer':
         job = 'mech_eng'
     elif job == 'farmers':
         job = 'farm'
+    elif job == 'software developer':
+        job = 'software'
     data = dt.get_state_data(job)
     dataset = []
     states_list = data[0]
@@ -243,6 +246,3 @@ def create_graphs(job):
     get_race(job)
     create_worktime(job)
     create_map(job)
-#create_population('Farm')
-#create_graphs('Software Developers')
-create_population(surgeons)
