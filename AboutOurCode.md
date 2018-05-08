@@ -129,10 +129,58 @@ def compare_happiness(a, b):
 
 
 ### Creating an Interface
-Using Pygame as a platform for the interface of the visualization seemed like the best route to go considering our previous exprience with it as well as the not-so-bright reviews about other means of creating an interactive interface. The process has been pretty straightforward in terms of coding the infrastructure for it. It currrently remains as a click-based interface. The one hurdle that we still face is transitions, which *can* be done but not without struggle. A figure of the current working interface is shown below.
-![]({{"UI_Example.png"|absolute_url}})
-We aim for a simplistic aethetic for the project that is still in development.
+Using Pygame as a platform for the interface of the visualization seemed like the best route to go considering our previous exprience with it as well as the not-so-bright reviews about other means of creating an interactive interface. The process has been pretty straightforward in terms of coding the infrastructure for it. It currrently remains as a click-based interface. 
+![](./UI_pic.png)
+We aimed for a simplistic aethetic for the project.
 
+Some example code for our Screen class that made the UI possible:
+
+```
+class Screen():
+    """ This is the basis for the entire UI
+    Each 'screen' is saved as this object that contains all of the
+    photos that appear as well as some helpful functions to render text
+    as weel as a zoom in function that the main while loop helps manage.
+    """
+    black = (0,0,0)
+    white = (255,255,255)
+    bx = 700
+    by = 100
+    font = py.font.SysFont("couriernew",25) #for regular text
+    title = py.font.SysFont("couriernew",50) #for title text
+    bg = py.image.load('FinalFigures/Wb-5.jpg') #for background
+    w,h = bg.get_size()
+    bg = py.transform.scale(bg,(int(w*.7),int(h*.7))) #scaling for grey button that sometimes appears
+    listOfNames  = ['Farmer','Software Developer','Surgeon','Mechanical Engineer',
+                    'Physicist','Plumber','Accountant'] #unhealthy hardcode but neccesary 
+    z = False #zoom boolean
+
+    def __init__(self,gD,name):
+        """
+        gD: gameDisplay for pygame
+        name: name of screen (string)
+        figures: list of figures (pygame img)
+        locs: list of location (tuple)
+        clickbox: list of clickbox blits (pygame rectangle)
+        """
+        self.gD = gD
+        self.name = name
+        self.figures = []
+        self.locs = []
+        self.clickbox = []
+
+
+        button = py.image.load('FinalFigures/arrow.png')
+        scale = .1
+        lx,ly = 20,20
+        # lx,ly = 1400,1000
+        w,h = button.get_size()
+        button = py.transform.scale(button,(int(w*scale),int(h*scale)))
+
+        self.figures.append(button)
+        self.locs.append((lx,ly))
+        self.clickbox.append(gameDisplay.blit(button,(lx,ly)))
+```
 
 
 Go Back to the [Index](index.md)
