@@ -14,7 +14,7 @@ We did too! Through our endevours we aim to answer these questions:
 
 ## Our Final Results
 
-![](https://vimeo.com/268615482)
+![Link to Video](https://vimeo.com/268615482)
 
 Our User Interface opens to a home page with pictures of the different professions
 ![](./UI_pic.png)
