@@ -12,14 +12,17 @@ We did too! Through our endevours we aim to answer these questions:
 - Are there any glaring disparities between types of occupations?
 - Is there anything we can tell about how a person's way of life differs by occupation factors like location or free time?
 
-## Our Intermediate Results
+## Our Final Results
 
-Right now, we have graphs that represent our data, like this one: 
-![](./Pie_Chart.png)
+Our User Interface opens to a home page with pictures of the different professions
+![](./UI_pic.png)
 
-More Graphs can be found in the [about our code section](./AboutOurCode.md)
-
-We also have a User Interface that takes the graphs we have, and presents them to the user via Pygame:
-![](./UI_Example.png)
+The user can select a profession and see the graphs we've generated for it.
+![](./UI_surg.png)
 
 
+### What Our Results Tell Us:
+
+We thought that there would be a correlation between high suicide rate and low income, signaling lower happiness levels for low income professionals. However, what we found was that there wasn't a direct correlation. Farmers, who make the least amount of money, have the second lowest suicide rate. Furthermore, plumbers have the highest suicide rate of all our mapped professions. We couldn't find a correlation between suicide rate and any other factor we searched for- therefore, we think that happiness factor has to do with some data that is more complex and outside the data range that we had. 
+
+Plumber did show however the lowest percentage of women- even lower than the other shown STEM fields. This visualizations underscores the gender divide in a profession that's usually not advicated for. 
