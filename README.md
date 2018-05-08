@@ -7,7 +7,7 @@ If you want to see our project website, go [here](https://coreyacl.github.io/Dat
 ### Install
 The data viz uses the pygame package as the main engine behind the visualization. Follow the directions [here](https://www.pygame.org/wiki/GettingStarted) in order to install pygame on your system. A mouse is also required for the user interface.
 
-Generating the graphs and the visualization requires matplotlib and pillow packages. To install matplotlib and pillow, follow the directions [here](https://matplotlib.org/users/installing.html) and [here](https://pillow.readthedocs.io/en/5.0.0/installation.html), respectively.
+Generating the graphs and the visualization requires matplotlib and pillow packages. To install matplotlib and pillow, follow the directions [here](https://matplotlib.org/users/installing.html) and [here](https://pillow.readthedocs.io/en/5.0.0/installation.html), respectively. Furthermore, bokeh backage is required to create the choropleth maps. To do so, follow the directions [here](https://bokeh.pydata.org/en/latest/docs/installation.html).
 
 Manipulating the data requires the pandas package. To install, follow the directions [here](https://pandas.pydata.org/pandas-docs/stable/install.html).
 
@@ -28,7 +28,7 @@ output = get_specfic_value(gender_df, 'mechanical engineer', 'Man')
 will return the percentage of male mechanical engineers.
 
 #### Creating Graphs
-To generate all the graphs for one particular occupation, on the bottom of the file graphs.py, type the following:
+If there is a change in data and you have to update all the graphs for occupations, on the bottom of the file graphs.py, type the following:
 ```
 create_graphs(job)
 ```
@@ -39,8 +39,9 @@ Then, run the following command:
 python graphs.py
 ```
 
-This will create and save all graphs necessary for one particular occupation.
-Currently, the available jobs are mechanical engineers, surgeons, farmers, physicists, accountants, software developers, and plumbers.
+This will create and save all graphs necessary for one particular occupation.  Save the graphs and replace the existing graphs in the occupation folders in FinalFigure folder with new graphs.
+Currently, the available jobs are mechanical engineer, surgeon, farmer, physicist, accountant, software developer, and plumber. You do not necessarily have to run this code unless new data is released from our dependent sources annually.
+
 
 ### Creating the User Interface
 The UI code pull all of its images from a main folder that should contain all of the following:
