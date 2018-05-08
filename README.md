@@ -26,7 +26,21 @@ The code that is responisble for extracting the data from files and preparing it
 ```
 output = get_specfic_value(gender_df, 'mechanical engineer', 'Man')
 ```
+
 #### Creating Graphs
+If there is a change in data and you have to update all the graphs for occupations, on the bottom of the file graphs.py, type the following:
+```
+create_graphs(job)
+```
+where job is a string of the occupation name.
+
+Then, run the following command:
+```
+python graphs.py
+```
+
+This will create and save all graphs necessary for one particular occupation.  Save the graphs and replace the existing graphs in the occupation folders in FinalFigure folder with new graphs.
+Currently, the available jobs are mechanical engineer, surgeon, farmer, physicist, accountant, software developer, and plumber. You do not necessarily have to run this code unless new data is released from our dependent sources annually.
 
 ### Creating the User Interface
 
