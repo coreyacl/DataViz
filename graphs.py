@@ -245,4 +245,4 @@ def create_graphs(job):
     create_map(job)
 #create_population('Farm')
 #create_graphs('Software Developers')
-compare_suicide('Software Developers')
+create_population(surgeons)
