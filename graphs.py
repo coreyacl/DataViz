@@ -53,7 +53,7 @@ def get_gender(a, b):
     ax1.axis('equal')
     plt.title('Gender Ratio')
     plt.show()
-    fig1.savefig('gender.png', transparent = True)
+    fig1.savefig('FinalProject/FinalFigures/' + 'gender.png', transparent = True)
 
 def get_race(a, b, c, d):
     """
@@ -124,27 +124,34 @@ def create_population(population):
     This function creates a circle diagram that represents population holding
     particular occupation in the U.S.
     """
-    pop = int(population) // 1.1*int(population)
-    W, H = (400, 400)
+    pop = int(dt.get_specfic_value(OES_df, population, 'employment'))
+    pop1 = pop/1000000
+    W, H = (500, 500)
+    r = 50
+    if pop < 10000:
+        r = 5
+    if pop < 100000:
+        r = 10
     image = Image.new('RGBA', (W, H))
     msg = 'Population Circle Diagram'
-    msg1 = 'U.S. Population'
-    msg2 = 'Plumbers'
+    msg1 = 'U.S. Adult Population'
+    msg2 = population
     font = ImageFont.truetype('DejaVuSans.ttf', 15)
     draw = ImageDraw.Draw(image)
     w, h = draw.textsize(msg, font = font)
     w1, h1 = draw.textsize(msg1, font = font)
     w2, h2 = draw.textsize(msg2, font = font)
-    w3, h3 = draw.textsize(str(population), font = font)
-    draw.ellipse((40, 40, 360, 360), fill = 'blue', outline ='blue')
-    draw.text(((W-w)/2, 20), msg, (255, 255, 0), font = font)
+    w3, h3 = draw.textsize(str(pop), font = font)
+    draw.ellipse((40, 40, 460, 460), fill = 'blue', outline ='blue')
+    draw.text(((W-w)/2, 20), msg, font = font, fill = 'black')
     draw.text(((W-w1)/2, (H-h1)/4), msg1, (255, 255, 0), font = font)
     #draw.text((100, 100), msg, (255, 255, 0), font = font)
     #draw.text((10,10), "Hello world", font=font, fill=(255, 255, 0))
-    draw.ellipse((200 - 160 * pop /2.3 ,200 - 160 * pop /2.3,
-                200 + 160 * pop /2.3 , 200 + 160 * pop /2.3), 'red')
-    draw.text(((W-w2)/2, (H-h2)/2), msg2, (255, 255, 0), font = font)
-    draw.text(((W-w3)/2, (H-h3)/2+15), str(population), (255, 255, 0), font = font)
+    draw.ellipse((250 - 210 * pop1/r , 250 - 210 * pop1 /r,
+                250 + 210 * pop1 /r , 250 + 210 * pop1 /r), 'red')
+    draw.text(((W-w2)/2, (H-h2)*3/5), msg2, (255, 255, 0), font = font)
+    draw.text(((W-w3)/2, (H-h3)*3/5+15), str(pop), (255, 255, 0), font = font)
+    draw.rectangle(((250 - 210 * pop1/300 , 250 - 210 * pop1 /300) , (250 + 210 * pop1/300, (H-h3)*3/5)), fill="black")
     image.show()
     image.save('population.png', transparent = True)
 def modify_image(a):
@@ -225,27 +232,26 @@ def create_happiness(a, b):
                  color='r')
     plt.ylabel('Suicide Rate (per 100000 people)')
     plt.title('Suicide Rate')
-    plt.xticks(index, ('Average Job', 'Plumbers'))
+    plt.xticks(index, ('Average Job', 'Farmers'))
     plt.tight_layout()
     plt.show()
-    fig.savefig('mort.png')
+    fig.savefig('mort.png', transparent = True)
 
 def create_graphs(a):
     """
     This function generates all the necessary graphs at once. You simply type
     the occupation name.
     """
-    create_population(dt.get_specfic_value(OES_df, a, 'employment'))
+    create_population(a)
     create_income(dt.get_specfic_value(OES_df, a, 'annual mean wage'))
     create_happiness(dt.get_average(suiciderate_df, 'total'), dt.get_specfic_value(suiciderate_df, a, 'total'))
     get_gender(dt.get_specfic_value(gender_df, a, 'Men'), dt.get_specfic_value(gender_df, a, 'Wmn'))
     get_race(dt.get_specfic_value(race_df, a, 'White'), dt.get_specfic_value(race_df, a, 'black'), dt.get_specfic_value(race_df, a, 'asian'), dt.get_specfic_value(race_df, a, 'hispanic'))
     create_worktime(dt.get_time_row(timework_df, a))
-    if a == 'physicist' or 'plumber':
-        break
     if a == 'mechanical engineer':
         create_map(dt.get_state_data('mech_eng'))
     elif a == 'farmer':
         create_map(dt.get_state_data('farm'))
     else:
         create_map(dt.get_state_data(a))
+create_population('Farm')
