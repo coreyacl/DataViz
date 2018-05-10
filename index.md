@@ -25,11 +25,13 @@ The user can select a profession and see the graphs we've generated for it.
 
 ### What Our Results Tell Us:
 
-We thought that there would be a correlation between high suicide rate and low income, signaling lower happiness levels for low income professionals. However, what we found was that there wasn't a direct correlation. Farmers, who make the least amount of money, have the second lowest suicide rate. Furthermore, plumbers have the highest suicide rate of all our mapped professions. We couldn't find a correlation between suicide rate and any other factor we searched for- therefore, we think that happiness factor has to do with some data that is more complex and outside the data range that we had. 
+In all, a few aspects of our results gave us some unexpected insights into the lives of different professionals, but we wished that we had more. 
+
+For one, our hypothesis going in was disproven. We thought that there would be a correlation between high suicide rate and low income, signaling lower happiness levels for low income professionals. However, what we found was that there wasn't a direct correlation. Farmers, who make the least amount of money, have the second lowest suicide rate. Furthermore, plumbers have the highest suicide rate of all our mapped professions. We couldn't find a correlation between suicide rate and any other factor we searched for- therefore, we think that happiness factor has to do with some data that is more complex and outside the data range that we had. 
 
 Plumber did show however the lowest percentage of women- even lower than the other shown STEM fields. This visualizations underscores the gender divide in a profession that's usually not advicated for. 
 
-Another part of professionals' lives that we can glean from the maps is that people who work high paying jobs usually live in urban areas. That means highly-paid professionals will be living in apartments while people like farmers live in houses. 
+Another part of professionals' lives that we can glean from the maps is that people who work high paying jobs usually live in urban areas. That means highly-paid professionals will be living in apartments while people like farmers live in houses. The heat maps are also telling of where "hotspots" in a professional field are. For example, the software developers' map shows that there are a lot of software developers in Washington and Microsoft is situated in Washington.
 
 
 In the future, we hope to have more data that can more accurate portray the complexity of an individual's life.
